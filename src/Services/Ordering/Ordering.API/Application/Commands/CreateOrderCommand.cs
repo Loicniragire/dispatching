@@ -1,16 +1,32 @@
-﻿using MediatR;
+﻿using System.Runtime.Serialization;
+using MediatR;
 using Ordering.API.Application.DTOs;
 
-namespace Ordering.API.Application.Commands
+namespace Ordering.API.Application.Commands;
+
+[DataContract]
+public class CreateOrderCommand : IRequest<bool>
 {
-    public class CreateOrderCommand: IRequest<bool>
-    {
-		public string ClientId { get; init; }
-		public string ClientName { get; init; }
-		public PickupDTO Pickup{ get; init; }
-		public DropoffDTO DropOff{ get; init; }
+	[DataMember]
+	private readonly List<LoadDTO> _loads;
 
-    }
+	[DataMember]
+    public string ClientId { get; init; }
 
+	[DataMember]
+    public string ClientName { get; init; }
+
+	[DataMember]
+	public IEnumerable<LoadDTO> Loads => _loads;
+
+	public CreateOrderCommand(string clientId, string clientName, IEnumerable<LoadDTO> loads): this()
+	{
+		ClientId = clientId;
+		ClientName = clientName;
+	}
+
+	public CreateOrderCommand()
+	{
+		_loads = new List<LoadDTO>();
+	}
 }
-
