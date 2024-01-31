@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Ordering.API..Application.Commnds;
+namespace Ordering.API.Application.Commands;
 /// <summary>
 /// Provides a base implementation for handling duplicate request and ensuring idempotent updates, in the cases where
 /// a requestid sent by client is used to detect duplicate requests.
