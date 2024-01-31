@@ -1,0 +1,7 @@
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/obj/Debug/net7.0/Ordering.API.csproj.AssemblyReference.cache
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/obj/Debug/net7.0/Ordering.API.GeneratedMSBuildEditorConfig.editorconfig
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/obj/Debug/net7.0/Ordering.API.AssemblyInfoInputs.cache
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/obj/Debug/net7.0/Ordering.API.AssemblyInfo.cs
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/obj/Debug/net7.0/Ordering.API.csproj.CoreCompileInputs.cache
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/obj/Debug/net7.0/Ordering.API.MvcApplicationPartsAssemblyInfo.cs
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/obj/Debug/net7.0/Ordering.API.MvcApplicationPartsAssemblyInfo.cache
