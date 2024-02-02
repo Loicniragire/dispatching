@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Ordering.Infrastructure.Idempotency;
 
 namespace Ordering.API.Application.Commands;
 /// <summary>
@@ -26,7 +27,7 @@ public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<
     /// </summary>
     /// <typeparam name="T">Type of the command handler that performs the operation if request is not duplicated</typeparam>
     /// <typeparam name="R">Return value of the inner command handler</typeparam>
-    public async Task<R> Handle(IdentifiedCommandHandler<T, R> message, CancellationToken cancellationToken)
+    public async Task<R> Handle(IdentifiedCommand<T, R> message, CancellationToken cancellationToken)
     {
         var alreadyExists = await _requestManager.ExistAsync(message.Id);
         if (alreadyExists)

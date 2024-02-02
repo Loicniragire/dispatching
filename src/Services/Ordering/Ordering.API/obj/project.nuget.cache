@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "AkIw+r/o4XUhv0C4+8kG1YtSQ+ZfcMxBpfLyWCCe51NT1hdWAbYmkKvLk6AuqF8FpzzZEXZB215qAKj6ag3PcQ==",
+  "dgSpecHash": "fyUn6WJRIjFBiCaC+2SIydg/HoZVLJBN99Qd60DJUTR9nho4E5HWiw0hpeW3wVqefOe1vZlD3PXN/ZFrg0QRDw==",
   "success": true,
   "projectFilePath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/Ordering.API.csproj",
   "expectedPackageFiles": [

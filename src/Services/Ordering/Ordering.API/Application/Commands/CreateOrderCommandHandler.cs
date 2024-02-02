@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Ordering.Domain.AggregatesModel.OrderAggregate;
+using Ordering.Infrastructure.Idempotency;
 
 namespace Ordering.API.Application.Commands;
 
@@ -31,8 +33,8 @@ public class CreateOrderIdentifiedCommandHandler : IdentifiedCommandHandler<Crea
     {
     }
 
-       protected override bool CreateResultForDuplicateRequest()
+    protected override bool CreateResultForDuplicateRequest()
     {
-           return true; // Ignore duplicate requests for creating order.
-       }
+        return true; // Ignore duplicate requests for creating order.
+    }
 }

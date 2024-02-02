@@ -153,6 +153,16 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "Ordering.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/Ordering.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Ordering.Domain.dll": {}
+        }
       }
     }
   },
@@ -568,12 +578,18 @@
         "swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "Ordering.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Ordering.Domain/Ordering.Domain.csproj",
+      "msbuildProject": "../Ordering.Domain/Ordering.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
       "MediatR >= 12.2.0",
       "Microsoft.AspNetCore.OpenApi >= 7.0.10",
+      "Ordering.Domain >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
   },
@@ -601,7 +617,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj": {
+              "projectPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
