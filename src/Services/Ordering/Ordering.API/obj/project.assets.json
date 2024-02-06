@@ -163,6 +163,19 @@
         "runtime": {
           "bin/placeholder/Ordering.Domain.dll": {}
         }
+      },
+      "Ordering.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Ordering.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Ordering.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Ordering.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -583,6 +596,11 @@
       "type": "project",
       "path": "../Ordering.Domain/Ordering.Domain.csproj",
       "msbuildProject": "../Ordering.Domain/Ordering.Domain.csproj"
+    },
+    "Ordering.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Ordering.Infrastructure/Ordering.Infrastructure.csproj",
+      "msbuildProject": "../Ordering.Infrastructure/Ordering.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -590,6 +608,7 @@
       "MediatR >= 12.2.0",
       "Microsoft.AspNetCore.OpenApi >= 7.0.10",
       "Ordering.Domain >= 1.0.0",
+      "Ordering.Infrastructure >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
   },
@@ -620,6 +639,9 @@
           "projectReferences": {
             "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj": {
               "projectPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj"
+            },
+            "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Infrastructure/Ordering.Infrastructure.csproj": {
+              "projectPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Infrastructure/Ordering.Infrastructure.csproj"
             }
           }
         }

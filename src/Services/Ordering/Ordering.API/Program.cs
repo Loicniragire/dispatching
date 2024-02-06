@@ -1,5 +1,3 @@
-using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using Ordering.API.Application.Commands;
 using Ordering.API.Application.Queries;
 
@@ -9,8 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // Add services to the DI container
-builder.Services.AddScoped<IOrderQueries, OrderQueries>(); // Update the implementation class name accordingly
-builder.Services.AddMediatR(typeof(CreateOrderCommandHandler).Assembly); // Add MediatR
+builder.Services.AddScoped<IOrderQueries, OrderQueries>(); 
+builder.Services.AddMediatR(config => 
+{
+    config.RegisterServicesFromAssemblyContaining(typeof(CreateOrderCommandHandler));
+});
 builder.Services.AddLogging(); // This adds a default ILogger implementation
 
 
