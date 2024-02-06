@@ -1,12 +1,25 @@
+using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using Ordering.API.Application.Commands;
+using Ordering.API.Application.Queries;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+// Add services to the DI container
+builder.Services.AddScoped<IOrderQueries, OrderQueries>(); // Update the implementation class name accordingly
+builder.Services.AddMediatR(typeof(CreateOrderCommandHandler).Assembly); // Add MediatR
+builder.Services.AddLogging(); // This adds a default ILogger implementation
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -22,3 +35,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
