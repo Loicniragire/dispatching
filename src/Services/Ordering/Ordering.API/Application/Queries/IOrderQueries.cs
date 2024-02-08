@@ -1,6 +1,4 @@
-﻿using Ordering.Domain.AggregatesModel.OrderAggregate;
-
-namespace Ordering.API.Application.Queries
+﻿namespace Ordering.API.Application.Queries
 {
 	/// <summary>
 	/// Order queries interface.
