@@ -29,8 +29,8 @@ public class Order: Entity, IAggregateRoot
     // Using a private collection field, better for DDD Aggregate's encapsulation
     // so OrderItems cannot be added from "outside the AggregateRoot" directly to the collection,
     // but only through the method OrderAggrergateRoot.AddOrderItem() which includes behaviour.
-    private readonly List<OrderItem> _orderItems;
-    public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
+    private readonly List<Load> _orderItems;
+    public IReadOnlyCollection<Load> OrderItems => _orderItems;
 
     private int? _paymentMethodId;
 
