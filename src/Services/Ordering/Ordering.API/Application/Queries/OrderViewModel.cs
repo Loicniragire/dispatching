@@ -38,5 +38,6 @@ public record Order
     public string description { get; init; }
     public List<Load> loads { get; set; }
     public decimal total { get; set; }
+	public string orderstatus { get; init; }
 
 }

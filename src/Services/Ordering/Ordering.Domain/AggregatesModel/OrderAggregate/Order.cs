@@ -2,7 +2,7 @@
 
 namespace Ordering.Domain.AggregatesModel.OrderAggregate;
 
-public class Order: Entity, IAggregateRoot
+public class Order : Entity, IAggregateRoot
 {
     // DDD Patterns comment
     // Using private fields, allowed since EF Core 1.1, is a much better encapsulation
@@ -10,7 +10,8 @@ public class Order: Entity, IAggregateRoot
     private DateTime _orderDate;
 
     // Address is a Value Object pattern example persisted as EF Core 2.0 owned entity
-    public Address Address { get; private set; }
+    public Address PickupAddress { get; private set; }
+    public Address DropoffAddress { get; private set; }
 
     public int? GetBuyerId => _buyerId;
     private int? _buyerId;
@@ -43,18 +44,21 @@ public class Order: Entity, IAggregateRoot
 
     protected Order()
     {
-        _orderItems = new List<OrderItem>();
+        _orderItems = new List<Load>();
         _isDraft = false;
     }
 
-    public Order(string userId, string userName, Address address, int cardTypeId, string cardNumber, string cardSecurityNumber,
-            string cardHolderName, DateTime cardExpiration, int? buyerId = null, int? paymentMethodId = null) : this()
+    public Order(string userId,
+                   string userName,
+                   Address pickupAddress,
+                   Address dropoffAddress,
+				   DateTimeOffset orderDate,
+				   string description) : this()
     {
-        _buyerId = buyerId;
-        _paymentMethodId = paymentMethodId;
         _orderStatusId = OrderStatus.Submitted.Id;
         _orderDate = DateTime.UtcNow;
-        Address = address;
+        PickupAddress = pickupAddress;
+		DropoffAddress = dropoffAddress;
 
         // Add the OrderStarterDomainEvent to the domain events collection 
         // to be raised/dispatched when comitting changes into the Database [ After DbContext.SaveChanges() ]
@@ -172,14 +176,20 @@ public class Order: Entity, IAggregateRoot
         }
     }
 
-    private void AddOrderStartedDomainEvent(string userId, string userName, int cardTypeId, string cardNumber,
-            string cardSecurityNumber, string cardHolderName, DateTime cardExpiration)
+    private void AddOrderStartedDomainEvent(string userId, string userName, int orderId, string description, decimal total,
+											string pickupStreet, string pickupCity, string pickupState, string pickupZip,
+											string dropoffStreet, string dropoffCity, string dropoffState, string dropoffZip)
     {
-        var orderStartedDomainEvent = new OrderStartedDomainEvent(this, userId, userName, cardTypeId,
-                                                                    cardNumber, cardSecurityNumber,
-                                                                    cardHolderName, cardExpiration);
+		var orderStartedDomainEvent = new OrderStartedDomainEvent(userId, userName, orderId, description, total,
+																	pickupStreet, pickupCity, pickupState, pickupZip,
+																	dropoffStreet, dropoffCity, dropoffState, dropoffZip);
 
         this.AddDomainEvent(orderStartedDomainEvent);
+    }
+
+    private void AddDomainEvent(OrderStartedDomainEvent orderStartedDomainEvent)
+    {
+        throw new NotImplementedException();
     }
 
     private void StatusChangeException(OrderStatus orderStatusToChange)
