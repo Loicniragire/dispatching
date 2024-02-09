@@ -9,3 +9,4 @@
 /Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/obj/Debug/net7.0/refint/Ordering.Domain.dll
 /Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/obj/Debug/net7.0/Ordering.Domain.pdb
 /Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/obj/Debug/net7.0/ref/Ordering.Domain.dll
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/obj/Debug/net7.0/Ordering.Domain.csproj.AssemblyReference.cache

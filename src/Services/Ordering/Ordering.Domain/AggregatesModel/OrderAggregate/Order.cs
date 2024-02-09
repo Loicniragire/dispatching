@@ -1,4 +1,6 @@
-﻿using Ordering.Domain.SeedWork;
+﻿using Ordering.Domain.Events;
+using Ordering.Domain.Exceptions;
+using Ordering.Domain.SeedWork;
 
 namespace Ordering.Domain.AggregatesModel.OrderAggregate;
 
@@ -49,21 +51,20 @@ public class Order : Entity, IAggregateRoot
     }
 
     public Order(string userId,
-                   string userName,
-                   Address pickupAddress,
-                   Address dropoffAddress,
-				   DateTimeOffset orderDate,
-				   string description) : this()
+                     string userName,
+                     Address pickupAddress,
+                     Address dropoffAddress,
+                     DateTimeOffset orderDate,
+                     string description) : this()
     {
         _orderStatusId = OrderStatus.Submitted.Id;
         _orderDate = DateTime.UtcNow;
         PickupAddress = pickupAddress;
-		DropoffAddress = dropoffAddress;
+        DropoffAddress = dropoffAddress;
 
         // Add the OrderStarterDomainEvent to the domain events collection 
         // to be raised/dispatched when comitting changes into the Database [ After DbContext.SaveChanges() ]
-        AddOrderStartedDomainEvent(userId, userName, cardTypeId, cardNumber,
-                                    cardSecurityNumber, cardHolderName, cardExpiration);
+        AddOrderStartedDomainEvent(userId, userName);
     }
 
     // DDD Patterns comment
@@ -89,8 +90,7 @@ public class Order : Entity, IAggregateRoot
         else
         {
             //add validated new order item
-
-            var orderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
+            var orderItem = new Load(productId, productName, unitPrice, discount, units);
             _orderItems.Add(orderItem);
         }
     }
@@ -114,11 +114,11 @@ public class Order : Entity, IAggregateRoot
         }
     }
 
-    public void SetStockConfirmedStatus()
+    public void SetConfirmedStatus()
     {
         if (_orderStatusId == OrderStatus.AwaitingValidation.Id)
         {
-            AddDomainEvent(new OrderStatusChangedToStockConfirmedDomainEvent(Id));
+            AddDomainEvent(new OrderStatusChangedToConfirmedDomainEvent(Id));
 
             _orderStatusId = OrderStatus.StockConfirmed.Id;
             _description = "All the items were confirmed with available stock.";
@@ -134,18 +134,6 @@ public class Order : Entity, IAggregateRoot
             _orderStatusId = OrderStatus.Paid.Id;
             _description = "The payment was performed at a simulated \"American Bank checking bank account ending on XX35071\"";
         }
-    }
-
-    public void SetShippedStatus()
-    {
-        if (_orderStatusId != OrderStatus.Paid.Id)
-        {
-            StatusChangeException(OrderStatus.Shipped);
-        }
-
-        _orderStatusId = OrderStatus.Shipped.Id;
-        _description = "The order was shipped.";
-        AddDomainEvent(new OrderShippedDomainEvent(this));
     }
 
     public void SetCancelledStatus()
@@ -176,20 +164,10 @@ public class Order : Entity, IAggregateRoot
         }
     }
 
-    private void AddOrderStartedDomainEvent(string userId, string userName, int orderId, string description, decimal total,
-											string pickupStreet, string pickupCity, string pickupState, string pickupZip,
-											string dropoffStreet, string dropoffCity, string dropoffState, string dropoffZip)
+    private void AddOrderStartedDomainEvent(string userId, string userName)
     {
-		var orderStartedDomainEvent = new OrderStartedDomainEvent(userId, userName, orderId, description, total,
-																	pickupStreet, pickupCity, pickupState, pickupZip,
-																	dropoffStreet, dropoffCity, dropoffState, dropoffZip);
-
+        var orderStartedDomainEvent = new OrderStartedDomainEvent(this, userId, userName);
         this.AddDomainEvent(orderStartedDomainEvent);
-    }
-
-    private void AddDomainEvent(OrderStartedDomainEvent orderStartedDomainEvent)
-    {
-        throw new NotImplementedException();
     }
 
     private void StatusChangeException(OrderStatus orderStatusToChange)

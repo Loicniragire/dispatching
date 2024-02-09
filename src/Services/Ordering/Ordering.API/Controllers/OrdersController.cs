@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ordering.API.Application.Queries;
-using Ordering.Domain.AggregatesModel.OrderAggregate;
 
 namespace Ordering.API.Controllers
 {

@@ -38,3 +38,11 @@
 /Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/obj/Debug/net7.0/Ordering.API.pdb
 /Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/obj/Debug/net7.0/Ordering.API.genruntimeconfig.cache
 /Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/obj/Debug/net7.0/ref/Ordering.API.dll
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/bin/Debug/net7.0/Dapper.dll
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/bin/Debug/net7.0/MediatR.Extensions.Microsoft.DependencyInjection.dll
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/bin/Debug/net7.0/System.Data.SqlClient.dll
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/bin/Debug/net7.0/runtimes/win-arm64/native/sni.dll
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/bin/Debug/net7.0/runtimes/win-x64/native/sni.dll
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/bin/Debug/net7.0/runtimes/win-x86/native/sni.dll
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/bin/Debug/net7.0/runtimes/unix/lib/netcoreapp2.1/System.Data.SqlClient.dll
+/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/bin/Debug/net7.0/runtimes/win/lib/netcoreapp2.1/System.Data.SqlClient.dll
