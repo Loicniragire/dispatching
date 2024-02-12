@@ -15,8 +15,8 @@ public class Order : Entity, IAggregateRoot
     public Address PickupAddress { get; private set; }
     public Address DropoffAddress { get; private set; }
 
-    public int? GetBuyerId => _buyerId;
-    private int? _buyerId;
+    public int? ClientId => _clientId;
+    private int? _clientId;
 
     public OrderStatus OrderStatus { get; private set; }
     private int _orderStatusId;
@@ -24,9 +24,6 @@ public class Order : Entity, IAggregateRoot
     private string _description;
 
 
-
-    // Draft orders have this set to true. Currently we don't check anywhere the draft status of an Order, but we could do it if needed
-    private bool _isDraft;
 
     // DDD Patterns comment
     // Using a private collection field, better for DDD Aggregate's encapsulation
@@ -37,17 +34,10 @@ public class Order : Entity, IAggregateRoot
 
     private int? _paymentMethodId;
 
-    public static Order NewDraft()
-    {
-        var order = new Order();
-        order._isDraft = true;
-        return order;
-    }
 
     protected Order()
     {
         _orderItems = new List<Load>();
-        _isDraft = false;
     }
 
     public Order(string userId,
@@ -71,7 +61,7 @@ public class Order : Entity, IAggregateRoot
     // This Order AggregateRoot's method "AddOrderitem()" should be the only way to add Items to the Order,
     // so any behavior (discounts, etc.) and validations are controlled by the AggregateRoot 
     // in order to maintain consistency between the whole Aggregate. 
-    public void AddOrderItem(int productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units = 1)
+    public void AddOrderItem(int productId, string productName, decimal unitPrice, decimal discount, int units = 1)
     {
         var existingOrderForProduct = _orderItems.Where(o => o.ProductId == productId)
             .SingleOrDefault();
@@ -100,9 +90,9 @@ public class Order : Entity, IAggregateRoot
         _paymentMethodId = id;
     }
 
-    public void SetBuyerId(int id)
+    public void SetClientId(int id)
     {
-        _buyerId = id;
+        _clientId = id;
     }
 
     public void SetAwaitingValidationStatus()

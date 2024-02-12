@@ -4,14 +4,14 @@
     "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.UnitTests/Ordering.UnitTests.csproj": {}
   },
   "projects": {
-    "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.UnitTests/Ordering.UnitTests.csproj": {
+    "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.UnitTests/Ordering.UnitTests.csproj",
-        "projectName": "Ordering.UnitTests",
-        "projectPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.UnitTests/Ordering.UnitTests.csproj",
+        "projectUniqueName": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj",
+        "projectName": "Ordering.Domain",
+        "projectPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj",
         "packagesPath": "/Users/loicniragire/.nuget/packages/",
-        "outputPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.UnitTests/obj/",
+        "outputPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/loicniragire/.nuget/NuGet/NuGet.Config"
@@ -38,9 +38,80 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.2.0, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.UnitTests/Ordering.UnitTests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.UnitTests/Ordering.UnitTests.csproj",
+        "projectName": "Ordering.UnitTests",
+        "projectPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.UnitTests/Ordering.UnitTests.csproj",
+        "packagesPath": "/Users/loicniragire/.nuget/packages/",
+        "outputPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.UnitTests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/loicniragire/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {
+              "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj": {
+                "projectPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.6.0, )"
+            },
+            "Mock": {
+              "target": "Package",
+              "version": "[1.0.0, )"
             },
             "NUnit": {
               "target": "Package",
