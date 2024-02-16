@@ -108,26 +108,59 @@ public class Order : Entity, IAggregateRoot
         {
             AddDomainEvent(new OrderStatusChangedToConfirmedDomainEvent(Id));
 
-            _orderStatusId = OrderStatus.StockConfirmed.Id;
-            _description = "All the items were confirmed with available stock.";
+            _orderStatusId = OrderStatus.Confirmed.Id;
+            _description = "The order was confirmed.";
+        }
+    }
+
+    public void SetPickedUpStatus()
+    {
+        if (_orderStatusId == OrderStatus.Confirmed.Id)
+        {
+            AddDomainEvent(new OrderStatusChangedToPickedUpDomainEvent(Id));
+
+            _orderStatusId = OrderStatus.PickedUp.Id;
+            _description = "The order was picked up.";
+        }
+    }
+
+    public void SetInTransitStatus()
+    {
+        if (_orderStatusId == OrderStatus.PickedUp.Id)
+        {
+            AddDomainEvent(new OrderStatusChangedToInTransitDomainEvent(Id));
+
+            _orderStatusId = OrderStatus.InTransit.Id;
+            _description = "The order is in-transit.";
+        }
+    }
+
+    public void SetDeliveredStatus()
+    {
+        if (_orderStatusId == OrderStatus.InTransit.Id)
+        {
+            AddDomainEvent(new OrderStatusChangedToDeliveredDomainEvent(Id));
+
+            _orderStatusId = OrderStatus.Delivered.Id;
+            _description = "The order has been Delivered.";
         }
     }
 
     public void SetPaidStatus()
     {
-        if (_orderStatusId == OrderStatus.StockConfirmed.Id)
+        if (_orderStatusId == OrderStatus.Delivered.Id)
         {
             AddDomainEvent(new OrderStatusChangedToPaidDomainEvent(Id, OrderItems));
 
             _orderStatusId = OrderStatus.Paid.Id;
-            _description = "The payment was performed at a simulated \"American Bank checking bank account ending on XX35071\"";
+            _description = "Order was paid.";
         }
     }
 
     public void SetCancelledStatus()
     {
         if (_orderStatusId == OrderStatus.Paid.Id ||
-            _orderStatusId == OrderStatus.Shipped.Id)
+            _orderStatusId == OrderStatus.Delivered.Id)
         {
             StatusChangeException(OrderStatus.Cancelled);
         }
