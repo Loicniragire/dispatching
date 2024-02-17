@@ -6,32 +6,17 @@ namespace Ordering.Domain.AggregatesModel.OrderAggregate;
 
 public class Order : Entity, IAggregateRoot
 {
-    // DDD Patterns comment
-    // Using private fields, allowed since EF Core 1.1, is a much better encapsulation
-    // aligned with DDD Aggregates and Domain Entities (Instead of properties and property collections)
     private DateTime _orderDate;
+    private string _description;
+    private int? _clientId;
+    private int _orderStatusId;
+    private readonly List<Load> _orderItems;
 
-    // Address is a Value Object pattern example persisted as EF Core 2.0 owned entity
     public Address PickupAddress { get; private set; }
     public Address DropoffAddress { get; private set; }
-
+    public OrderStatus OrderStatus { get { return OrderStatus.From(_orderStatusId); } }
     public int? ClientId => _clientId;
-    private int? _clientId;
-
-    public OrderStatus OrderStatus { get; private set; }
-    private int _orderStatusId;
-
-    private string _description;
-
-    // DDD Patterns comment
-    // Using a private collection field, better for DDD Aggregate's encapsulation
-    // so OrderItems cannot be added from "outside the AggregateRoot" directly to the collection,
-    // but only through the method OrderAggrergateRoot.AddOrderItem() which includes behaviour.
-    private readonly List<Load> _orderItems;
     public IReadOnlyCollection<Load> OrderItems => _orderItems;
-
-    private int? _paymentMethodId;
-
 
     protected Order()
     {
@@ -66,8 +51,6 @@ public class Order : Entity, IAggregateRoot
 
         if (existingOrderForProduct != null)
         {
-            //if previous line exist modify it with higher discount  and units..
-
             if (discount > existingOrderForProduct.GetCurrentDiscount())
             {
                 existingOrderForProduct.SetNewDiscount(discount);
@@ -81,11 +64,6 @@ public class Order : Entity, IAggregateRoot
             var orderItem = new Load(productId, productName, unitPrice, discount, units);
             _orderItems.Add(orderItem);
         }
-    }
-
-    public void SetPaymentId(int id)
-    {
-        _paymentMethodId = id;
     }
 
     public void SetClientId(int id)
@@ -159,7 +137,9 @@ public class Order : Entity, IAggregateRoot
 
     public void SetCancelledStatus()
     {
-        if (_orderStatusId == OrderStatus.Paid.Id ||
+        if (_orderStatusId == OrderStatus.PickedUp.Id ||
+            _orderStatusId == OrderStatus.InTransit.Id ||
+            _orderStatusId == OrderStatus.Paid.Id ||
             _orderStatusId == OrderStatus.Delivered.Id)
         {
             StatusChangeException(OrderStatus.Cancelled);
@@ -170,19 +150,9 @@ public class Order : Entity, IAggregateRoot
         AddDomainEvent(new OrderCancelledDomainEvent(this));
     }
 
-    public void SetCancelledStatusWhenStockIsRejected(IEnumerable<int> orderStockRejectedItems)
+    public decimal GetTotal()
     {
-        if (_orderStatusId == OrderStatus.AwaitingValidation.Id)
-        {
-            _orderStatusId = OrderStatus.Cancelled.Id;
-
-            var itemsStockRejectedProductNames = OrderItems
-                .Where(c => orderStockRejectedItems.Contains(c.ProductId))
-                .Select(c => c.GetOrderItemProductName());
-
-            var itemsStockRejectedDescription = string.Join(", ", itemsStockRejectedProductNames);
-            _description = $"The product items don't have stock: ({itemsStockRejectedDescription}).";
-        }
+        return _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
     }
 
     private void AddOrderStartedDomainEvent(string userId, string userName)
@@ -195,10 +165,4 @@ public class Order : Entity, IAggregateRoot
     {
         throw new OrderingDomainException($"Is not possible to change the order status from {OrderStatus.Name} to {orderStatusToChange.Name}.");
     }
-
-    public decimal GetTotal()
-    {
-        return _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
-    }
-
 }
