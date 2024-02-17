@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Rc75gp6jG3SlYQQbUI4PnMcdfskql3wAaVf5XOLkj/SoPP29tgULBbbNf21MlHQpLfBNM6Zf277oBW+1J7DNJg==",
+  "dgSpecHash": "D+6QL2dLb5VPpCYxd6g8PThmdnpd6ert+G+D/lenWFsGp9rXnIe2NYrXrBy5Ws8C2nmBm9P3UusfQzlgoW0V6A==",
   "success": true,
   "projectFilePath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.API/Ordering.API.csproj",
   "expectedPackageFiles": [
@@ -34,7 +34,7 @@
       "message": "Detected package version outside of dependency constraint: MediatR.Extensions.Microsoft.DependencyInjection 11.1.0 requires MediatR (>= 11.0.0 && < 12.0.0) but version MediatR 12.2.0 was resolved.",
       "libraryId": "MediatR",
       "targetGraphs": [
-        "net7.0"
+        "net8.0"
       ]
     }
   ]
