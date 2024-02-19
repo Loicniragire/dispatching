@@ -105,7 +105,7 @@ public class OrderingContextDesignFactory : IDesignTimeDbContextFactory<Ordering
     public OrderingContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<OrderingContext>()
-            .UseSqlServer("Server=.;Initial Catalog=Microsoft.eShopOnContainers.Services.OrderingDb;Integrated Security=true");
+            .UseSqlServer("Server=.;Initial Catalog=dispatching.Services.OrderingDb;Integrated Security=true");
 
         return new OrderingContext(optionsBuilder.Options, new NoMediator());
     }
