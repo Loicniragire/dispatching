@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "LaCnlS5nlbKyIDylC+1mJGPH48tTop9P5Ei9y1g4BsccXh+TMhX6Laa9p7NgU18DIep+jSLCoAwGBjpCKtKL8g==",
+  "dgSpecHash": "hT8VqNIGBdTjtUNSGjEpyhmQi0f1U4fuUKFa2xa3O0402eKClwmADoxkkJWHLsbcYMribl4D1ZmvMJumdqFM1g==",
   "success": true,
   "projectFilePath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.UnitTests/Ordering.UnitTests.csproj",
   "expectedPackageFiles": [
     "/Users/loicniragire/.nuget/packages/automapper/9.0.0/automapper.9.0.0.nupkg.sha512",
     "/Users/loicniragire/.nuget/packages/coverlet.collector/3.2.0/coverlet.collector.3.2.0.nupkg.sha512",
-    "/Users/loicniragire/.nuget/packages/mediatr/12.2.0/mediatr.12.2.0.nupkg.sha512",
-    "/Users/loicniragire/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
+    "/Users/loicniragire/.nuget/packages/mediatr/11.1.0/mediatr.11.1.0.nupkg.sha512",
+    "/Users/loicniragire/.nuget/packages/mediatr.contracts/1.0.1/mediatr.contracts.1.0.1.nupkg.sha512",
     "/Users/loicniragire/.nuget/packages/mediatr.extensions.microsoft.dependencyinjection/11.1.0/mediatr.extensions.microsoft.dependencyinjection.11.1.0.nupkg.sha512",
     "/Users/loicniragire/.nuget/packages/microsoft.bcl.asyncinterfaces/1.1.0/microsoft.bcl.asyncinterfaces.1.1.0.nupkg.sha512",
     "/Users/loicniragire/.nuget/packages/microsoft.bcl.hashcode/1.1.0/microsoft.bcl.hashcode.1.1.0.nupkg.sha512",
@@ -27,7 +27,7 @@
     "/Users/loicniragire/.nuget/packages/microsoft.extensions.configuration.abstractions/3.1.3/microsoft.extensions.configuration.abstractions.3.1.3.nupkg.sha512",
     "/Users/loicniragire/.nuget/packages/microsoft.extensions.configuration.binder/3.1.3/microsoft.extensions.configuration.binder.3.1.3.nupkg.sha512",
     "/Users/loicniragire/.nuget/packages/microsoft.extensions.dependencyinjection/3.1.3/microsoft.extensions.dependencyinjection.3.1.3.nupkg.sha512",
-    "/Users/loicniragire/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/Users/loicniragire/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/7.0.0/microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
     "/Users/loicniragire/.nuget/packages/microsoft.extensions.dependencymodel/3.1.3/microsoft.extensions.dependencymodel.3.1.3.nupkg.sha512",
     "/Users/loicniragire/.nuget/packages/microsoft.extensions.logging/3.1.3/microsoft.extensions.logging.3.1.3.nupkg.sha512",
     "/Users/loicniragire/.nuget/packages/microsoft.extensions.logging.abstractions/3.1.3/microsoft.extensions.logging.abstractions.3.1.3.nupkg.sha512",
@@ -64,16 +64,5 @@
     "/Users/loicniragire/.nuget/packages/system.text.json/4.7.1/system.text.json.4.7.1.nupkg.sha512",
     "/Users/loicniragire/.nuget/packages/system.threading.tasks/4.3.0/system.threading.tasks.4.3.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1608",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Detected package version outside of dependency constraint: MediatR.Extensions.Microsoft.DependencyInjection 11.1.0 requires MediatR (>= 11.0.0 && < 12.0.0) but version MediatR 12.2.0 was resolved.",
-      "libraryId": "MediatR",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }

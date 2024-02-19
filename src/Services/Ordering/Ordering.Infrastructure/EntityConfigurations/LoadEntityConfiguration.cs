@@ -1,6 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace Ordering.Infrastructure.EntityConfigurations;
 
 public class LoadEntityTypeConfiguration : IEntityTypeConfiguration<Load>

@@ -1,28 +1,43 @@
-﻿using Ordering.Domain.AggregatesModel.OrderAggregate;
-using Ordering.Domain.SeedWork;
-
-namespace Ordering.Infrastructure.Repositories;
+﻿namespace Ordering.Infrastructure.Repositories;
 
 public class OrderRepository : IOrderRepository
 {
-    public OrderRepository()
+    private readonly OrderingContext _orderContext;
+    public IUnitOfWork UnitOfWork => _orderContext;
+
+    public OrderRepository(OrderingContext orderContext)
     {
+        _orderContext = orderContext ?? throw new ArgumentNullException(nameof(orderContext));
     }
 
-    public IUnitOfWork UnitOfWork => throw new NotImplementedException();
 
     public Order Add(Order order)
     {
-        throw new NotImplementedException();
+        return _orderContext.Orders.Add(order).Entity;
     }
 
-    public Task<Order> GetAsync(int orderId)
+    public async Task<Order> GetAsync(int orderId)
     {
-        throw new NotImplementedException();
+        var order = await _orderContext.Orders
+                   .Include(o => o.PickupAddress)
+                   .Include(o => o.DropoffAddress)
+                   .FirstOrDefaultAsync(o => o.Id == orderId);
+
+        if (order == null)
+        {
+            order = _orderContext.Orders.Local.FirstOrDefault(o => o.Id == orderId);
+        }
+
+		if(order != null)
+		{
+			await _orderContext.Entry(order).Collection(i => i.OrderItems).LoadAsync();
+			await _orderContext.Entry(order).Reference(i => i.OrderStatus).LoadAsync();
+		}
+        return order;
     }
 
     public void Update(Order order)
     {
-        throw new NotImplementedException();
+		_orderContext.Entry(order).State = EntityState.Modified;
     }
 }
