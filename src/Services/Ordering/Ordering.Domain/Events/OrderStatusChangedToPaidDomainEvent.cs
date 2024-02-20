@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace Ordering.Domain.Events;
 
 public class OrderStatusChangedToPaidDomainEvent : INotification
@@ -13,4 +11,3 @@ public class OrderStatusChangedToPaidDomainEvent : INotification
     public int OrderId { get; }
 	public IEnumerable<Load> OrderItems { get; }
 }
-

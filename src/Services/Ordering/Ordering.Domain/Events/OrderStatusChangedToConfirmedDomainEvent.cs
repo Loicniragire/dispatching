@@ -1,4 +1,3 @@
-using MediatR;
 namespace Ordering.Domain.Events;
 
 public class OrderStatusChangedToConfirmedDomainEvent : INotification
@@ -10,4 +9,3 @@ public class OrderStatusChangedToConfirmedDomainEvent : INotification
         OrderId = orderId;
     }
 }
-

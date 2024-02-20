@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace Ordering.Domain.SeedWork;
+﻿namespace Ordering.Domain.SeedWork;
 
 public abstract class Entity
 {

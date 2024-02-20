@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace Ordering.Domain.Events;
 
 public class DeliveryCompletedDomainEvent: INotification

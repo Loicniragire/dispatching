@@ -1,5 +1,3 @@
-using System.Reflection;
-
 namespace Ordering.Domain.SeedWork;
 
 public abstract class Enumeration : IComparable

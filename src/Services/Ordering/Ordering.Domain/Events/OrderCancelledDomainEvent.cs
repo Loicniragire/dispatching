@@ -1,6 +1,3 @@
-using MediatR;
-using Ordering.Domain.AggregatesModel.OrderAggregate;
-
 namespace Ordering.Domain.Events
 {
 	public class OrderCancelledDomainEvent : INotification
@@ -12,4 +9,3 @@ namespace Ordering.Domain.Events
 		public Order Order { get; }
 	}
 }
-

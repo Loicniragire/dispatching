@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace Ordering.Domain.Events;
 
 public class DeliveryStartedDomainEvent: INotification
@@ -15,4 +13,3 @@ public class DeliveryStartedDomainEvent: INotification
 		DeliveryId = deliveryId;
 	}
 }
-

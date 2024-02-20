@@ -1,4 +1,3 @@
-using MediatR;
 namespace Ordering.Domain.Events;
 
 public class OrderStatusChangedToInTransitDomainEvent : INotification
@@ -10,5 +9,3 @@ public class OrderStatusChangedToInTransitDomainEvent : INotification
         OrderId = orderId;
     }
 }
-
-

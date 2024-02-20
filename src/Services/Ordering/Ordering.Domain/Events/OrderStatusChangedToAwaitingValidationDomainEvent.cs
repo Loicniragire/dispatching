@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace Ordering.Domain.Events;
 
 public class OrderStatusChangedToAwaitingValidationDomainEvent : INotification
@@ -12,4 +10,3 @@ public class OrderStatusChangedToAwaitingValidationDomainEvent : INotification
 	public int OrderId { get; }
 	public IEnumerable<Load> OrderItems { get; }
 }
-

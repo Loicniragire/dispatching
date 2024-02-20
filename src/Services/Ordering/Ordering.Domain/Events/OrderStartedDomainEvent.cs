@@ -1,6 +1,3 @@
-using MediatR;
-using Ordering.Domain.AggregatesModel.OrderAggregate;
-
 namespace Ordering.Domain.Events;
 
 public class OrderStartedDomainEvent : INotification
@@ -16,5 +13,3 @@ public class OrderStartedDomainEvent : INotification
         Order = order;
     }
 }
-
-
