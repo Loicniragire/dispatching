@@ -4,18 +4,38 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
 {
     public void Configure(EntityTypeBuilder<Order> orderConfiguration)
     {
+        ConfigureTable(orderConfiguration);
+        ConfigureKeys(orderConfiguration);
+        ConfigureIgnoredFields(orderConfiguration);
+        ConfigureProperties(orderConfiguration);
+        ConfigureNavigation(orderConfiguration);
+        ConfigureOwnsOne(orderConfiguration);
+        ConfigureOrderStatusRelationship(orderConfiguration);
+        ConfigureDeliveryRelationship(orderConfiguration);
+    }
+
+    private void ConfigureTable(EntityTypeBuilder<Order> orderConfiguration)
+    {
         orderConfiguration.ToTable("orders", OrderingContext.DEFAULT_SCHEMA);
+    }
 
+    private void ConfigureKeys(EntityTypeBuilder<Order> orderConfiguration)
+    {
         orderConfiguration.HasKey(o => o.Id);
-
-        orderConfiguration.Ignore(b => b.DomainEvents);
-
         orderConfiguration.Property(o => o.Id)
             .UseHiLo("orderseq", OrderingContext.DEFAULT_SCHEMA);
+    }
 
-        orderConfiguration.Property<int?>("_buyerId")
+    private void ConfigureIgnoredFields(EntityTypeBuilder<Order> orderConfiguration)
+    {
+        orderConfiguration.Ignore(b => b.DomainEvents);
+    }
+
+    private void ConfigureProperties(EntityTypeBuilder<Order> orderConfiguration)
+    {
+        orderConfiguration.Property<int?>("_clientId")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("BuyerId")
+            .HasColumnName("ClientId")
             .IsRequired(false);
 
         orderConfiguration.Property<DateTime>("_orderDate")
@@ -28,53 +48,50 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             .HasColumnName("Description")
             .IsRequired();
 
-        var navigation = orderConfiguration.Metadata.FindNavigation(nameof(Order.OrderItems));
-
-        navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
-
         orderConfiguration
             .Property<int>("_clientId")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("ClientId")
             .IsRequired(true);
+    }
 
-        //Address value object persisted as owned entity type supported since EF Core 2.0
-        orderConfiguration
-            .OwnsOne(o => o.PickupAddress, a =>
-            {
-                // Explicit configuration of the shadow key property in the owned type 
-                // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
-                a.Property<int>("OrderId")
-                .UseHiLo("orderseq", OrderingContext.DEFAULT_SCHEMA);
-                a.WithOwner();
-            });
+    private void ConfigureNavigation(EntityTypeBuilder<Order> orderConfiguration)
+    {
+        var navigation = orderConfiguration.Metadata.FindNavigation(nameof(Order.OrderItems));
+        navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+    }
 
-        orderConfiguration
-            .OwnsOne(o => o.DropoffAddress, a =>
-            {
-                // Explicit configuration of the shadow key property in the owned type 
-                // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
-                a.Property<int>("OrderId")
-                .UseHiLo("orderseq", OrderingContext.DEFAULT_SCHEMA);
-                a.WithOwner();
-            });
+    private void ConfigureOwnsOne(EntityTypeBuilder<Order> orderConfiguration)
+    {
+        // Assuming both PickupAddress and DropoffAddress have similar configurations
+        Action<OwnedNavigationBuilder<Order, Address>> configureAddress = a => 
+        {
+            a.Property<int>("OrderId")
+            .UseHiLo("orderseq", OrderingContext.DEFAULT_SCHEMA);
+            a.WithOwner();
+        };
 
-        orderConfiguration
-            .Property<int>("_orderStatusId")
+        orderConfiguration.OwnsOne(o => o.PickupAddress, configureAddress);
+        orderConfiguration.OwnsOne(o => o.DropoffAddress, configureAddress);
+    }
+
+    private void ConfigureOrderStatusRelationship(EntityTypeBuilder<Order> orderConfiguration)
+    {
+        orderConfiguration.Property<int>("_orderStatusId")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("OrderStatusId")
             .IsRequired();
 
         orderConfiguration.HasOne(o => o.OrderStatus)
             .WithMany()
-            // .HasForeignKey("OrderStatusId");
             .HasForeignKey("_orderStatusId");
+    }
 
+    private void ConfigureDeliveryRelationship(EntityTypeBuilder<Order> orderConfiguration)
+    {
         orderConfiguration.HasOne(o => o.Delivery)
             .WithOne()
             .HasForeignKey<Delivery>("OrderId")
             .IsRequired(false);
     }
 }
-
-
