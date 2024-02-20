@@ -48,11 +48,6 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             .HasColumnName("Description")
             .IsRequired();
 
-        orderConfiguration
-            .Property<int>("_clientId")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("ClientId")
-            .IsRequired(true);
     }
 
     private void ConfigureNavigation(EntityTypeBuilder<Order> orderConfiguration)

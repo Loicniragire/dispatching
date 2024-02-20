@@ -13,6 +13,7 @@ public class Delivery : Entity
     private double _startOdometer;
     private double _endOdometer;
 	private DateTimeOffset _startDate;
+	private DateTimeOffset _deliveryDate;
 
     public Delivery(string route)
     {
@@ -45,6 +46,7 @@ public class Delivery : Entity
         _additionalCosts = additionalCosts;
         _endOdometer = endOdometer;
         _elapsedTime = DateTime.UtcNow - _startDate; 
+		_deliveryDate = DateTime.UtcNow;
     }
 
     public void StartDelivery(double startOdometer)
