@@ -1,6 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Ordering.API.Application.Commands;
 using Ordering.API.Application.Queries;
 using Ordering.Infrastructure.Idempotency;
@@ -21,7 +19,6 @@ builder.Services.AddMediatR(config =>
     config.RegisterServicesFromAssemblyContaining(typeof(CreateOrderCommandHandler));
 });
 builder.Services.AddLogging(); // This adds a default ILogger implementation
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

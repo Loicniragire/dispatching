@@ -16,6 +16,7 @@ public class OrderingContext : DbContext, IUnitOfWork
     public DbSet<Load> Loads { get; set; }
     public DbSet<OrderStatus> OrderStatus { get; set; }
     public DbSet<Client> Clients { get; set; }
+	public DbSet<Delivery> Deliveries { get; set; }
 
 	// Mediator for dispatching domain events.
     private readonly IMediator _mediator;
@@ -50,6 +51,7 @@ public class OrderingContext : DbContext, IUnitOfWork
         modelBuilder.ApplyConfiguration(new LoadEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new OrderStatusEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ClientEntityTypeConfiguration());
+		modelBuilder.ApplyConfiguration(new DeliveryEntityTypeConfiguration());
     }
 
 	/// <summary>

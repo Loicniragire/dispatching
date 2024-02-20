@@ -47,7 +47,6 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("Description")
             .IsRequired();
-
     }
 
     private void ConfigureNavigation(EntityTypeBuilder<Order> orderConfiguration)

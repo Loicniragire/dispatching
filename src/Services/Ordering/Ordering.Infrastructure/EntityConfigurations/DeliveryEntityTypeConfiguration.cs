@@ -1,6 +1,6 @@
 namespace Ordering.Infrastructure.EntityConfigurations;
 
-public class DeliveryEntityConfiguration : IEntityTypeConfiguration<Delivery>
+public class DeliveryEntityTypeConfiguration : IEntityTypeConfiguration<Delivery>
 {
     public void Configure(EntityTypeBuilder<Delivery> deliveryConfiguration)
     {
@@ -37,12 +37,12 @@ public class DeliveryEntityConfiguration : IEntityTypeConfiguration<Delivery>
 			.UsePropertyAccessMode(PropertyAccessMode.Field)
 			.HasColumnName("Route")
 			.IsRequired();
-		deliveryConfiguration.Property<DateTime>("_deliveryDate")
+		deliveryConfiguration.Property<DateTimeOffset>("_deliveryDate")
 			.UsePropertyAccessMode(PropertyAccessMode.Field)
 			.HasColumnName("DeliveryDate")
 			.IsRequired();
 
-		deliveryConfiguration.Property<DateTime>("_startDate")
+		deliveryConfiguration.Property<DateTimeOffset>("_startDate")
 			.UsePropertyAccessMode(PropertyAccessMode.Field)
 			.HasColumnName("StartDate")
 			.IsRequired();
@@ -77,10 +77,10 @@ public class DeliveryEntityConfiguration : IEntityTypeConfiguration<Delivery>
 			.HasColumnName("EndOdometer")
 			.IsRequired();
 
-		deliveryConfiguration.Property<double>("Distance")
+		deliveryConfiguration.Property<double>("_distance")
+			.UsePropertyAccessMode(PropertyAccessMode.Field)
 			.HasColumnName("Distance")
-			.IsRequired()
-			.HasComputedColumnSql("_endOdometer - _startOdometer");
+			.IsRequired();
 
 		deliveryConfiguration.Property<decimal>("TotalCost")
 			.HasColumnName("TotalCost")

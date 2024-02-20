@@ -12,6 +12,7 @@ public class Delivery : Entity
     private decimal _additionalCosts;
     private double _startOdometer;
     private double _endOdometer;
+	private double _distance;
 	private DateTimeOffset _startDate;
 	private DateTimeOffset _deliveryDate;
 
@@ -31,7 +32,7 @@ public class Delivery : Entity
     public decimal GasCost => _gasCost;
     public decimal TollsCost => _tollsCost;
     public decimal AdditionalCosts => _additionalCosts;
-    public double Distance => _endOdometer - _startOdometer;
+    public double Distance => _distance;
 
     public void CompleteDelivery(decimal gasCost, decimal tollsCost, decimal additionalCosts, double endOdometer)
     {
@@ -47,6 +48,7 @@ public class Delivery : Entity
         _endOdometer = endOdometer;
         _elapsedTime = DateTime.UtcNow - _startDate; 
 		_deliveryDate = DateTime.UtcNow;
+		_distance = _endOdometer - _startOdometer;
     }
 
     public void StartDelivery(double startOdometer)
