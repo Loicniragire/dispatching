@@ -138,13 +138,14 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
+		var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to PickedUp status. 
         // Sequence order matters. Order needs to be in Confirmed status before it can be set to PickedUp status
         order.SetAwaitingValidationStatus();
         order.SetConfirmedStatus();
-        order.SetPickedUpStatus();
+        order.SetPickedUpStatus(deliveryRoute);
 
         // Assert
         // Confirm that the domain event was added
@@ -162,13 +163,14 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
+		var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to InTransit status.
         // Sequence order matters. Order needs to be in PickedUp status before it can be set to InTransit status
         order.SetAwaitingValidationStatus();
         order.SetConfirmedStatus();
-        order.SetPickedUpStatus();
+        order.SetPickedUpStatus(deliveryRoute);
         order.SetInTransitStatus();
 
         // Assert
@@ -187,13 +189,14 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
+		var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to Delivered status.
         // Sequence order matters. Order needs to be in InTransit status before it can be set to Delivered status
         order.SetAwaitingValidationStatus();
         order.SetConfirmedStatus();
-        order.SetPickedUpStatus();
+        order.SetPickedUpStatus(deliveryRoute);
         order.SetInTransitStatus();
         order.SetDeliveredStatus();
 
@@ -214,13 +217,14 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
+		var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to Paid status.
         // Sequence order matters. Order needs to be in Delivered status before it can be set to Paid status
         order.SetAwaitingValidationStatus();
         order.SetConfirmedStatus();
-        order.SetPickedUpStatus();
+        order.SetPickedUpStatus(deliveryRoute);
         order.SetInTransitStatus();
         order.SetDeliveredStatus();
         order.SetPaidStatus();
@@ -264,13 +268,14 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
+		var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to InTransit status.
         // Sequence order matters. Order needs to be in PickedUp status before it can be set to InTransit status
         order.SetAwaitingValidationStatus();
         order.SetConfirmedStatus();
-        order.SetPickedUpStatus();
+        order.SetPickedUpStatus(deliveryRoute);
         order.SetInTransitStatus();
 
         // Attempt to cancel the order
@@ -293,13 +298,14 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
+		var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to InTransit status.
         // Sequence order matters. Order needs to be in PickedUp status before it can be set to InTransit status
         order.SetAwaitingValidationStatus();
         order.SetConfirmedStatus();
-        order.SetPickedUpStatus();
+        order.SetPickedUpStatus(deliveryRoute);
 
         // Attempt to cancel the order
         // This should not be allowed

@@ -10,6 +10,7 @@ public class Order : Entity, IAggregateRoot
     private string _description;
     private int? _clientId;
     private int _orderStatusId;
+    private Delivery _delivery;
     private readonly List<Load> _orderItems;
 
     public Address PickupAddress { get; private set; }
@@ -91,7 +92,7 @@ public class Order : Entity, IAggregateRoot
         }
     }
 
-    public void SetPickedUpStatus()
+    public void SetPickedUpStatus(string deliveryRoute)
     {
         if (_orderStatusId == OrderStatus.Confirmed.Id)
         {
@@ -99,6 +100,7 @@ public class Order : Entity, IAggregateRoot
 
             _orderStatusId = OrderStatus.PickedUp.Id;
             _description = "The order was picked up.";
+            _delivery = new Delivery(deliveryRoute);
         }
     }
 
@@ -153,6 +155,22 @@ public class Order : Entity, IAggregateRoot
     public decimal GetTotal()
     {
         return _orderItems.Sum(o => o.GetUnits() * o.GetUnitPrice());
+    }
+
+    public void CompleteDelivery(decimal gasCost, decimal tollsCost, decimal additionalCosts, double endOdometer)
+    {
+        if (_delivery == null) throw new MissingMemberException("The delivery is missing.");
+
+        _delivery.CompleteDelivery(gasCost, tollsCost, additionalCosts, endOdometer);
+        this.AddDomainEvent(new DeliveryCompletedDomainEvent(Id, endOdometer, _delivery.Id));
+    }
+
+    public void StartDelivery(double startOdometer)
+    {
+        if (_delivery == null) throw new MissingMemberException("The delivery is missing.");
+
+        _delivery.StartDelivery(startOdometer);
+        this.AddDomainEvent(new DeliveryStartedDomainEvent(Id, startOdometer, _delivery.Id));
     }
 
     private void AddOrderStartedDomainEvent(string userId, string userName)
