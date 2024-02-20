@@ -2,46 +2,61 @@ namespace Ordering.Infrastructure.EntityConfigurations;
 
 public class LoadEntityTypeConfiguration : IEntityTypeConfiguration<Load>
 {
-    public void Configure(EntityTypeBuilder<Load> orderItemConfiguration)
+    public void Configure(EntityTypeBuilder<Load> loadConfiguration)
     {
-        orderItemConfiguration.ToTable("loads", OrderingContext.DEFAULT_SCHEMA);
+        ConfigureTable(loadConfiguration);
+        ConfigureKeys(loadConfiguration);
+        ConfigureIgnoredFields(loadConfiguration);
+        ConfigureProperties(loadConfiguration);
+    }
 
-        orderItemConfiguration.HasKey(o => o.Id);
+    private void ConfigureTable(EntityTypeBuilder<Load> loadConfiguration)
+    {
+        loadConfiguration.ToTable("loads", OrderingContext.DEFAULT_SCHEMA);
+    }
 
-        orderItemConfiguration.Ignore(b => b.DomainEvents);
-
-        orderItemConfiguration.Property(o => o.Id)
+    private void ConfigureKeys(EntityTypeBuilder<Load> loadConfiguration)
+    {
+        loadConfiguration.HasKey(l => l.Id);
+        loadConfiguration.Property(l => l.Id)
             .UseHiLo("orderitemseq");
+    }
 
-        orderItemConfiguration.Property<int>("OrderId")
+    private void ConfigureIgnoredFields(EntityTypeBuilder<Load> loadConfiguration)
+    {
+        loadConfiguration.Ignore(l => l.DomainEvents);
+    }
+
+    private void ConfigureProperties(EntityTypeBuilder<Load> loadConfiguration)
+    {
+        loadConfiguration.Property<int>("OrderId")
             .IsRequired();
 
-        orderItemConfiguration
+        loadConfiguration.Property<int>("ProductId")
+            .IsRequired();
+
+        loadConfiguration
             .Property<decimal>("_discount")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("Discount")
             .IsRequired();
 
-        orderItemConfiguration.Property<int>("ProductId")
-            .IsRequired();
-
-        orderItemConfiguration
+        loadConfiguration
             .Property<string>("_productName")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("ProductName")
             .IsRequired();
 
-        orderItemConfiguration
+        loadConfiguration
             .Property<decimal>("_unitPrice")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("UnitPrice")
             .IsRequired();
 
-        orderItemConfiguration
+        loadConfiguration
             .Property<int>("_units")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("Units")
             .IsRequired();
     }
 }
-
