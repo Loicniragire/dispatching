@@ -81,11 +81,6 @@ public class DeliveryEntityTypeConfiguration : IEntityTypeConfiguration<Delivery
 			.UsePropertyAccessMode(PropertyAccessMode.Field)
 			.HasColumnName("Distance")
 			.IsRequired();
-
-		deliveryConfiguration.Property<decimal>("TotalCost")
-			.HasColumnName("TotalCost")
-			.IsRequired()
-			.HasComputedColumnSql("_gasCost + _tollsCost + _additionalCosts");
     }
 
     private void ConfigureRelationships(EntityTypeBuilder<Delivery> deliveryConfiguration)

@@ -13,6 +13,9 @@ public class Order : Entity, IAggregateRoot
     private Delivery _delivery;
     private readonly List<Load> _orderItems;
 
+	public int? PickupAddressId { get; private set; }
+	public int? DropoffAddressId { get; private set; }
+
     public Address PickupAddress { get; private set; }
     public Address DropoffAddress { get; private set; }
     public OrderStatus OrderStatus { get { return OrderStatus.From(_orderStatusId); } set { _orderStatusId = value.Id; } }

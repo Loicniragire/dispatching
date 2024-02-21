@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ordering.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class foreign_key_update : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,23 @@ namespace Ordering.Infrastructure.Migrations
                 name: "orderseq",
                 schema: "ordering",
                 incrementBy: 10);
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "clients",
@@ -66,16 +83,8 @@ namespace Ordering.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    PickupAddress_Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PickupAddress_City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PickupAddress_State = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PickupAddress_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PickupAddress_ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DropoffAddress_Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DropoffAddress_City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DropoffAddress_State = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DropoffAddress_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DropoffAddress_ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PickupAddressId = table.Column<int>(type: "int", nullable: false),
+                    DropoffAddressId = table.Column<int>(type: "int", nullable: false),
                     OrderStatusId = table.Column<int>(type: "int", nullable: false),
                     ClientId = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -84,6 +93,18 @@ namespace Ordering.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_orders_Addresses_DropoffAddressId",
+                        column: x => x.DropoffAddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_orders_Addresses_PickupAddressId",
+                        column: x => x.PickupAddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_orders_orderstatus_OrderStatusId",
                         column: x => x.OrderStatusId,
@@ -100,7 +121,6 @@ namespace Ordering.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false),
-                    TotalCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false, computedColumnSql: "_gasCost + _tollsCost + _additionalCosts"),
                     AdditionalCosts = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DeliveryDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Distance = table.Column<double>(type: "float", nullable: false),
@@ -170,10 +190,22 @@ namespace Ordering.Infrastructure.Migrations
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_orders_DropoffAddressId",
+                schema: "ordering",
+                table: "orders",
+                column: "DropoffAddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_orders_OrderStatusId",
                 schema: "ordering",
                 table: "orders",
                 column: "OrderStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_orders_PickupAddressId",
+                schema: "ordering",
+                table: "orders",
+                column: "PickupAddressId");
         }
 
         /// <inheritdoc />
@@ -194,6 +226,9 @@ namespace Ordering.Infrastructure.Migrations
             migrationBuilder.DropTable(
                 name: "orders",
                 schema: "ordering");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "orderstatus",

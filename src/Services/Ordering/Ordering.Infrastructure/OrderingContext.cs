@@ -17,6 +17,7 @@ public class OrderingContext : DbContext, IUnitOfWork
     public DbSet<OrderStatus> OrderStatus { get; set; }
     public DbSet<Client> Clients { get; set; }
 	public DbSet<Delivery> Deliveries { get; set; }
+	public DbSet<Address> Addresses { get; set; }
 
 	// Mediator for dispatching domain events.
     private readonly IMediator _mediator;
@@ -160,7 +161,7 @@ public class OrderingContextDesignFactory : IDesignTimeDbContextFactory<Ordering
     {
 		// Using a hard-coded connection string for design-time services.
         var optionsBuilder = new DbContextOptionsBuilder<OrderingContext>()
-            .UseSqlServer("Server=.;Initial Catalog=dispatching.Services.OrderingDb;Integrated Security=true");
+            .UseSqlServer("Server=localhost,1433;Database=dispatching.Services.OrderingDb;User ID=SA;Password=1Strong@Psw;TrustServerCertificate=True;Connection Timeout=30;");
 
         return new OrderingContext(optionsBuilder.Options, new NoMediator());
     }

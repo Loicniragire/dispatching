@@ -33,6 +33,18 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
 
     private void ConfigureProperties(EntityTypeBuilder<Order> orderConfiguration)
     {
+		// Configure Order to own two Address entities
+		/* orderConfiguration.OwnsOne(o => o.PickupAddress); */
+		/* orderConfiguration.OwnsOne(o => o.DropoffAddress); */
+
+		/*
+		 *
+        // Optional: Customizing column names
+        modelBuilder.Entity<Order>()
+            .OwnsOne(o => o.PickupAddress)
+            .Property(p => p.Street).HasColumnName("CustomStreetName");
+		 */
+
         orderConfiguration.Property<int?>("_clientId")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("ClientId")
@@ -57,16 +69,19 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
 
     private void ConfigureOwnsOne(EntityTypeBuilder<Order> orderConfiguration)
     {
-        // Assuming both PickupAddress and DropoffAddress have similar configurations
-        Action<OwnedNavigationBuilder<Order, Address>> configureAddress = a => 
-        {
-            a.Property<int>("OrderId")
-            .UseHiLo("orderseq", OrderingContext.DEFAULT_SCHEMA);
-            a.WithOwner();
-        };
+        // Configure a foreign key to PickupAddress
+        orderConfiguration.HasOne(o => o.PickupAddress)
+            .WithMany() 
+            .HasForeignKey(o => o.PickupAddressId)
+            .IsRequired(true) 
+			.OnDelete(DeleteBehavior.Restrict);
 
-        orderConfiguration.OwnsOne(o => o.PickupAddress, configureAddress);
-        orderConfiguration.OwnsOne(o => o.DropoffAddress, configureAddress);
+		// Configure a foreign key to DropoffAddress
+		orderConfiguration.HasOne(o => o.DropoffAddress)
+			.WithMany()
+			.HasForeignKey(o => o.DropoffAddressId)
+			.IsRequired(true)
+			.OnDelete(DeleteBehavior.Restrict);
     }
 
     private void ConfigureOrderStatusRelationship(EntityTypeBuilder<Order> orderConfiguration)

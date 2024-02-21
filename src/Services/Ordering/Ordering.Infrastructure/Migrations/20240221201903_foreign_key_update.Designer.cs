@@ -12,8 +12,8 @@ using Ordering.Infrastructure;
 namespace Ordering.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderingContext))]
-    [Migration("20240220213617_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240221201903_foreign_key_update")]
+    partial class foreign_key_update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,6 +100,39 @@ namespace Ordering.Infrastructure.Migrations
                     b.ToTable("clients", "ordering");
                 });
 
+            modelBuilder.Entity("Ordering.Domain.AggregatesModel.OrderAggregate.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("Ordering.Domain.AggregatesModel.OrderAggregate.Delivery", b =>
                 {
                     b.Property<int>("Id")
@@ -110,12 +143,6 @@ namespace Ordering.Infrastructure.Migrations
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("TotalCost")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("TotalCost")
-                        .HasComputedColumnSql("_gasCost + _tollsCost + _additionalCosts");
 
                     b.Property<decimal>("_additionalCosts")
                         .HasColumnType("decimal(18,2)")
@@ -174,6 +201,14 @@ namespace Ordering.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "orderseq", "ordering");
 
+                    b.Property<int?>("DropoffAddressId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PickupAddressId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
                     b.Property<int?>("_clientId")
                         .HasColumnType("int")
                         .HasColumnName("ClientId");
@@ -192,6 +227,10 @@ namespace Ordering.Infrastructure.Migrations
                         .HasColumnName("OrderStatusId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DropoffAddressId");
+
+                    b.HasIndex("PickupAddressId");
 
                     b.HasIndex("_orderStatusId");
 
@@ -234,91 +273,29 @@ namespace Ordering.Infrastructure.Migrations
 
             modelBuilder.Entity("Ordering.Domain.AggregatesModel.OrderAggregate.Order", b =>
                 {
+                    b.HasOne("Ordering.Domain.AggregatesModel.OrderAggregate.Address", "DropoffAddress")
+                        .WithMany()
+                        .HasForeignKey("DropoffAddressId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ordering.Domain.AggregatesModel.OrderAggregate.Address", "PickupAddress")
+                        .WithMany()
+                        .HasForeignKey("PickupAddressId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Ordering.Domain.AggregatesModel.OrderAggregate.OrderStatus", "OrderStatus")
                         .WithMany()
                         .HasForeignKey("_orderStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Ordering.Domain.AggregatesModel.OrderAggregate.Address", "DropoffAddress", b1 =>
-                        {
-                            b1.Property<int>("OrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseHiLo(b1.Property<int>("OrderId"), "orderseq", "ordering");
-
-                            b1.Property<string>("City")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Street")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("ZipCode")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("OrderId");
-
-                            b1.ToTable("orders", "ordering");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderId");
-                        });
-
-                    b.OwnsOne("Ordering.Domain.AggregatesModel.OrderAggregate.Address", "PickupAddress", b1 =>
-                        {
-                            b1.Property<int>("OrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseHiLo(b1.Property<int>("OrderId"), "orderseq", "ordering");
-
-                            b1.Property<string>("City")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("State")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Street")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("ZipCode")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("OrderId");
-
-                            b1.ToTable("orders", "ordering");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderId");
-                        });
-
-                    b.Navigation("DropoffAddress")
-                        .IsRequired();
+                    b.Navigation("DropoffAddress");
 
                     b.Navigation("OrderStatus");
 
-                    b.Navigation("PickupAddress")
-                        .IsRequired();
+                    b.Navigation("PickupAddress");
                 });
 
             modelBuilder.Entity("Ordering.Domain.AggregatesModel.OrderAggregate.Order", b =>
