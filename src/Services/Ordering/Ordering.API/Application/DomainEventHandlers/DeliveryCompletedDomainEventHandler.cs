@@ -1,7 +1,3 @@
-using MediatR;
-using Ordering.Domain.AggregatesModel.OrderAggregate;
-using Ordering.Domain.Events;
-
 namespace Ordering.API.Application.DomainEventHandlers;
 
 public class DeliveryCompletedDomainEventHandler : INotificationHandler<DeliveryCompletedDomainEvent>

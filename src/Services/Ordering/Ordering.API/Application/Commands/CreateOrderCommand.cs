@@ -1,8 +1,4 @@
-﻿using System.Runtime.Serialization;
-using MediatR;
-using Ordering.API.Application.DTOs;
-
-namespace Ordering.API.Application.Commands;
+﻿namespace Ordering.API.Application.Commands;
 
 [DataContract]
 public class CreateOrderCommand : IRequest<bool>

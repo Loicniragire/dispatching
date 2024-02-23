@@ -1,5 +1,3 @@
-using EventBus.Events.IntegrationEvents;
-
 namespace Ordering.API.Application.IntegrationEvents;
 
 public interface IOrderingIntegrationEventService

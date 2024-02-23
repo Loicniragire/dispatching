@@ -1,6 +1,6 @@
-namespace EventBus.Events.IntegrationEvents;
+namespace BuildingBlocks.EventBus.Events;
 
-public class IntegrationEvent
+public record IntegrationEvent
 {
     public IntegrationEvent()
     {
@@ -8,12 +8,16 @@ public class IntegrationEvent
         CreationDate = DateTime.UtcNow;
     }
 
+	[JsonConstructor]
     public IntegrationEvent(Guid id, DateTime createDate)
     {
         Id = id;
         CreationDate = createDate;
     }
 
+	[JsonInclude]
     public Guid Id { get; private set; }
+
+	[JsonInclude]
     public DateTime CreationDate { get; private set; }
 }

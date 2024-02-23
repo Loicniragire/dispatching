@@ -1,8 +1,4 @@
-﻿using MediatR;
-using Ordering.Domain.AggregatesModel.OrderAggregate;
-using Ordering.Infrastructure.Idempotency;
-
-namespace Ordering.API.Application.Commands;
+﻿namespace Ordering.API.Application.Commands;
 
 public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, bool>
 {

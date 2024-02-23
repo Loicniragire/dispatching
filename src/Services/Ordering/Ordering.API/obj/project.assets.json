@@ -1214,6 +1214,16 @@
           }
         }
       },
+      "EventBus/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/EventBus.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EventBus.dll": {}
+        }
+      },
       "Ordering.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -3547,6 +3557,11 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "EventBus/1.0.0": {
+      "type": "project",
+      "path": "../../../BuildingBlocks/EventBus/EventBus.csproj",
+      "msbuildProject": "../../../BuildingBlocks/EventBus/EventBus.csproj"
+    },
     "Ordering.Domain/1.0.0": {
       "type": "project",
       "path": "../Ordering.Domain/Ordering.Domain.csproj",
@@ -3561,6 +3576,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "Dapper >= 2.1.28",
+      "EventBus >= 1.0.0",
       "MediatR >= 12.2.0",
       "Microsoft.AspNetCore.OpenApi >= 7.0.10",
       "Ordering.Domain >= 1.0.0",
@@ -3594,6 +3610,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+            "/Users/loicniragire/Projects/dispatching/src/BuildingBlocks/EventBus/EventBus.csproj": {
+              "projectPath": "/Users/loicniragire/Projects/dispatching/src/BuildingBlocks/EventBus/EventBus.csproj"
+            },
             "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj": {
               "projectPath": "/Users/loicniragire/Projects/dispatching/src/Services/Ordering/Ordering.Domain/Ordering.Domain.csproj"
             },
