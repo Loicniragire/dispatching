@@ -4,6 +4,7 @@ using Ordering.API.Application.Queries;
 using Ordering.Infrastructure.Idempotency;
 using Ordering.Infrastructure.Repositories;
 using Ordering.Domain.AggregatesModel.OrderAggregate;
+using Ordering.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddMediatR(config =>
     config.RegisterServicesFromAssemblyContaining(typeof(CreateOrderCommandHandler));
 });
 builder.Services.AddLogging(); // This adds a default ILogger implementation
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -37,6 +39,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering.API v1"));
 }
 
+// Register the exception handling middleware. This must be registered before any other middleware that might throw an exception
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+// Register the request logging middleware
+app.UseMiddleware<RequestLoggingMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -44,4 +52,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

@@ -1,8 +1,4 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Ordering.API.Application.Queries;
-
-namespace Ordering.API.Controllers
+﻿namespace Ordering.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
@@ -21,7 +17,7 @@ namespace Ordering.API.Controllers
 
         // Retrieves all orders
         [HttpGet] // Responds to GET request at the route 'api/v1/orders'
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersAsync()
+        public async Task<ActionResult<IEnumerable<Application.Queries.Order>>> GetOrdersAsync()
         {
             try
             {
@@ -37,7 +33,7 @@ namespace Ordering.API.Controllers
 
         // Retrieves a single order by ID
         [HttpGet("{id:int}")] // Responds to GET request at the route 'api/v1/orders/{id}'
-        public async Task<ActionResult<Order>> GetOrderByIdAsync(int id)
+        public async Task<ActionResult<Application.Queries.Order>> GetOrderByIdAsync(int id)
         {
             try
             {
