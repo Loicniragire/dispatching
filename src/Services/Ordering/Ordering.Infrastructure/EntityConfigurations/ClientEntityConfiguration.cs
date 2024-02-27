@@ -39,7 +39,14 @@ public class ClientEntityTypeConfiguration : IEntityTypeConfiguration<Client>
     
     private void ConfigureProperties(EntityTypeBuilder<Client> clientConfiguration)
     {
-        clientConfiguration.Property(c => c.Name)
-            .IsRequired();
+        clientConfiguration.Property(c => c.Name).IsRequired();
+		clientConfiguration.Property(c => c.Email).IsRequired();
+		clientConfiguration.Property(c => c.Phone).IsRequired();
+		clientConfiguration.Property(c => c.Notes).IsRequired(false);
+		clientConfiguration.Property(c => c.IsRemoved).IsRequired();
+		clientConfiguration.Property(c => c.CreatedDate).IsRequired();
+		clientConfiguration.Property(c => c.UpdatedDate).IsRequired(false);
+		clientConfiguration.Property(c => c.RemovedDate).IsRequired(false);
+		clientConfiguration.Property(c => c.AddressId).IsRequired(false);
     }
 }

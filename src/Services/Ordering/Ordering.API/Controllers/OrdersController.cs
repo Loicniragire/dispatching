@@ -1,55 +1,54 @@
-﻿namespace Ordering.API.Controllers
+﻿namespace Ordering.API.Controllers;
+
+[Route("api/v1/[controller]")]
+[ApiController]
+public class OrdersController : ControllerBase
 {
-    [Route("api/v1/[controller]")]
-    [ApiController]
-    public class OrdersController : ControllerBase
+    private readonly IOrderQueries _orderQueries;
+    private readonly IMediator _mediator;
+    private readonly ILogger<OrdersController> _logger;
+
+    public OrdersController(IOrderQueries orderQueries, IMediator mediator, ILogger<OrdersController> logger)
     {
-        private readonly IOrderQueries _orderQueries;
-        private readonly IMediator _mediator;
-        private readonly ILogger<OrdersController> _logger;
+        _orderQueries = orderQueries ?? throw new ArgumentNullException(nameof(orderQueries));
+           _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
 
-        public OrdersController(IOrderQueries orderQueries, IMediator mediator, ILogger<OrdersController> logger)
+    // Retrieves all orders
+    [HttpGet] // Responds to GET request at the route 'api/v1/orders'
+    public async Task<ActionResult<IEnumerable<Application.Queries.Order>>> GetOrdersAsync()
+    {
+        try
         {
-            _orderQueries = orderQueries ?? throw new ArgumentNullException(nameof(orderQueries));
-			_mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            var orders = await _orderQueries.GetOrdersAsync();
+            return Ok(orders);
         }
-
-        // Retrieves all orders
-        [HttpGet] // Responds to GET request at the route 'api/v1/orders'
-        public async Task<ActionResult<IEnumerable<Application.Queries.Order>>> GetOrdersAsync()
+        catch (Exception ex)
         {
-            try
-            {
-                var orders = await _orderQueries.GetOrdersAsync();
-                return Ok(orders);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "GetOrdersAsync failed.");
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
-            }
+            _logger.LogError(ex, "GetOrdersAsync failed.");
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
         }
+    }
 
-        // Retrieves a single order by ID
-        [HttpGet("{id:int}")] // Responds to GET request at the route 'api/v1/orders/{id}'
-        public async Task<ActionResult<Application.Queries.Order>> GetOrderByIdAsync(int id)
+    // Retrieves a single order by ID
+    [HttpGet("{id:int}")] // Responds to GET request at the route 'api/v1/orders/{id}'
+    public async Task<ActionResult<Application.Queries.Order>> GetOrderByIdAsync(int id)
+    {
+        try
         {
-            try
+            var order = await _orderQueries.GetOrderAsync(id);
+            if (order == null)
             {
-                var order = await _orderQueries.GetOrderAsync(id);
-                if (order == null)
-                {
-                    return NotFound($"Order with ID {id} not found.");
-                }
-                
-                return Ok(order);
+                return NotFound($"Order with ID {id} not found.");
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "GetOrderByIdAsync failed.");
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
-            }
+
+            return Ok(order);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "GetOrderByIdAsync failed.");
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
         }
     }
 }

@@ -9,3 +9,8 @@ global using Microsoft.AspNetCore.Mvc;
 global using Ordering.API.Application.Queries;
 global using System.Net;
 global using System.Text.Json;
+global using Ordering.Infrastructure.Repositories;
+global using Ordering.API.Application.Commands;
+global using Ordering.API.Middleware;
+global using System.Data.SqlClient;
+global using Dapper;

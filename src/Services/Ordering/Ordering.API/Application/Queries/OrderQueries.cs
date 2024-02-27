@@ -1,7 +1,4 @@
-﻿using System.Data.SqlClient;
-using Dapper;
-
-namespace Ordering.API.Application.Queries;
+﻿namespace Ordering.API.Application.Queries;
 
 public class OrderQueries : IOrderQueries
 {

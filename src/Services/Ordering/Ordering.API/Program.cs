@@ -1,18 +1,24 @@
-using MediatR;
-using Ordering.API.Application.Commands;
-using Ordering.API.Application.Queries;
-using Ordering.Infrastructure.Idempotency;
-using Ordering.Infrastructure.Repositories;
-using Ordering.Domain.AggregatesModel.OrderAggregate;
-using Ordering.API.Middleware;
+
+using Microsoft.EntityFrameworkCore;
+using Ordering.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 
+// Get connection string
+string constr = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Register OrderingContext for DI
+builder.Services.AddDbContext<OrderingContext>(options =>
+{
+	options.UseSqlServer(constr);
+});
+//
 // Add services to the DI container
-builder.Services.AddScoped<IOrderQueries, OrderQueries>();
+// add scoped OrderingQueries with connection string
+builder.Services.AddScoped<IOrderQueries>(sp => new OrderQueries(constr));
 builder.Services.AddScoped<IRequestManager, RequestManager>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddMediatR(config =>
