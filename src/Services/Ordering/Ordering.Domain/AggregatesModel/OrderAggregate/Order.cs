@@ -9,7 +9,7 @@ public class Order : Entity, IAggregateRoot
 {
     private DateTime _orderDate;
     private string _description;
-    private int? _clientId;
+    private int _clientId;
     private int _orderStatusId;
     private Delivery _delivery;
     private readonly List<Load> _orderItems;
@@ -21,9 +21,9 @@ public class Order : Entity, IAggregateRoot
     public Address DropoffAddress { get; private set; }
     public OrderStatus OrderStatus { get { return OrderStatus.From(_orderStatusId); } set { _orderStatusId = value.Id; } }
 	public Delivery Delivery => _delivery;
-    public int? ClientId => _clientId;
+    public int ClientId => _clientId;
     public IReadOnlyCollection<Load> OrderItems => _orderItems;
-	public Client Client { get; set; }
+	public Client Client { get; private set; }
 
     protected Order()
     {

@@ -21,8 +21,7 @@ public class ClientEntityTypeConfiguration : IEntityTypeConfiguration<Client>
         clientConfiguration.HasKey(c => c.Id);
         clientConfiguration.Property(c => c.Id)
             .UseHiLo("clientseq", OrderingContext.DEFAULT_SCHEMA);
-		clientConfiguration.HasMany(c => c.Orders).WithOne(o => o.Client)
-			.HasForeignKey(c => c.ClientId);
+		clientConfiguration.HasMany(c => c.Orders).WithOne(o => o.Client).HasForeignKey(c => c.ClientId);
     }
 
     private void ConfigureIgnoredFields(EntityTypeBuilder<Client> clientConfiguration)

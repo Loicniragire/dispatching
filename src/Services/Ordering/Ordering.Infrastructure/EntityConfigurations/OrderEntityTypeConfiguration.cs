@@ -33,23 +33,6 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
 
     private void ConfigureProperties(EntityTypeBuilder<Order> orderConfiguration)
     {
-		// Configure Order to own two Address entities
-		/* orderConfiguration.OwnsOne(o => o.PickupAddress); */
-		/* orderConfiguration.OwnsOne(o => o.DropoffAddress); */
-
-		/*
-		 *
-        // Optional: Customizing column names
-        modelBuilder.Entity<Order>()
-            .OwnsOne(o => o.PickupAddress)
-            .Property(p => p.Street).HasColumnName("CustomStreetName");
-		 */
-
-        orderConfiguration.Property<int?>("_clientId")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("ClientId")
-            .IsRequired(false);
-
         orderConfiguration.Property<DateTime>("_orderDate")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("OrderDate")
@@ -71,17 +54,25 @@ public class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
     {
         // Configure a foreign key to PickupAddress
         orderConfiguration.HasOne(o => o.PickupAddress)
-            .WithMany() 
+            .WithMany()
             .HasForeignKey(o => o.PickupAddressId)
-            .IsRequired(true) 
-			.OnDelete(DeleteBehavior.Restrict);
+            .IsRequired(true)
+               .OnDelete(DeleteBehavior.Restrict);
 
-		// Configure a foreign key to DropoffAddress
-		orderConfiguration.HasOne(o => o.DropoffAddress)
-			.WithMany()
-			.HasForeignKey(o => o.DropoffAddressId)
-			.IsRequired(true)
-			.OnDelete(DeleteBehavior.Restrict);
+        // Configure a foreign key to DropoffAddress
+        orderConfiguration.HasOne(o => o.DropoffAddress)
+            .WithMany()
+            .HasForeignKey(o => o.DropoffAddressId)
+            .IsRequired(true)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Configure a foreign key to Client
+        orderConfiguration.HasOne(o => o.Client)
+            .WithMany()
+            .HasForeignKey(o => o.ClientId)
+            .IsRequired(true)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 
     private void ConfigureOrderStatusRelationship(EntityTypeBuilder<Order> orderConfiguration)

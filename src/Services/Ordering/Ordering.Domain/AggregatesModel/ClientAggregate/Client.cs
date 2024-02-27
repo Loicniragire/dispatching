@@ -14,19 +14,19 @@ public class Client : Entity, IAggregateRoot
     public DateTime? RemovedDate { get; private set; }
 
 	// Navigation properties
-	public Address Address { get; private set; }
+	public Address Address { get;  set; }
 	public ICollection<Order> Orders { get; set; }
 
-    public Client(string identityGuid, string name, string email, string phone, string notes, Address address)
+    public Client(string identityGuid, string name, string email, string phone, string notes, int? AddressId)
     {
         IdentityGuid = identityGuid;
         Name = name;
         Email = email;
         Phone = phone;
         Notes = notes;
-        Address = address;
         CreatedDate = DateTime.UtcNow;
         IsRemoved = false;
+		AddressId = AddressId;
         AddClientCreatedDomainEvent(identityGuid, name, email, phone, notes);
     }
 
