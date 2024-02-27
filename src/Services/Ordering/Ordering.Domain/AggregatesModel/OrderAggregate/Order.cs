@@ -1,4 +1,5 @@
-﻿using Ordering.Domain.Events;
+﻿using Ordering.Domain.AggregatesModel.ClientAggregate;
+using Ordering.Domain.Events;
 using Ordering.Domain.Exceptions;
 using Ordering.Domain.SeedWork;
 
@@ -22,6 +23,7 @@ public class Order : Entity, IAggregateRoot
 	public Delivery Delivery => _delivery;
     public int? ClientId => _clientId;
     public IReadOnlyCollection<Load> OrderItems => _orderItems;
+	public Client Client { get; set; }
 
     protected Order()
     {
