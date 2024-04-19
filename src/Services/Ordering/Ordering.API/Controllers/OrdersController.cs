@@ -11,12 +11,12 @@ public class OrdersController : ControllerBase
     public OrdersController(IOrderQueries orderQueries, IMediator mediator, ILogger<OrdersController> logger)
     {
         _orderQueries = orderQueries ?? throw new ArgumentNullException(nameof(orderQueries));
-           _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     // Retrieves all orders
-    [HttpGet] // Responds to GET request at the route 'api/v1/orders'
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<Application.Queries.Order>>> GetOrdersAsync()
     {
         try
@@ -32,7 +32,7 @@ public class OrdersController : ControllerBase
     }
 
     // Retrieves a single order by ID
-    [HttpGet("{id:int}")] // Responds to GET request at the route 'api/v1/orders/{id}'
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<Application.Queries.Order>> GetOrderByIdAsync(int id)
     {
         try
@@ -50,5 +50,16 @@ public class OrdersController : ControllerBase
             _logger.LogError(ex, "GetOrderByIdAsync failed.");
             return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
         }
+    }
+
+    // POST api/orders
+    [HttpPost]
+    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
+    {
+        bool result = await _mediator.Send(command);
+        if (result)
+            return Ok();
+        else
+            return BadRequest();
     }
 }

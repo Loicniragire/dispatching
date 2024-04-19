@@ -15,10 +15,18 @@ public class CreateOrderCommand : IRequest<bool>
 	[DataMember]
 	public IEnumerable<LoadDTO> Loads => _loads;
 
-	public CreateOrderCommand(string clientId, string clientName, IEnumerable<LoadDTO> loads): this()
+	[DataMember]
+	public DateTimeOffset OrderDate { get; init; }
+
+	[DataMember]
+	public string Description { get; init; }
+
+	public CreateOrderCommand(string clientId, string clientName, IEnumerable<LoadDTO> loads, DateTimeOffset orderDate, string description): this()
 	{
 		ClientId = clientId;
 		ClientName = clientName;
+		OrderDate = orderDate;
+		Description = description;
 	}
 
 	public CreateOrderCommand()
