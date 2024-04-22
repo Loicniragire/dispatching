@@ -28,16 +28,16 @@ public class OrderRepository : IOrderRepository
             order = _orderContext.Orders.Local.FirstOrDefault(o => o.Id == orderId);
         }
 
-		if(order != null)
-		{
-			await _orderContext.Entry(order).Collection(i => i.OrderItems).LoadAsync();
-			await _orderContext.Entry(order).Reference(i => i.OrderStatus).LoadAsync();
-		}
+        if (order != null)
+        {
+            await _orderContext.Entry(order).Collection(i => i.OrderItems).LoadAsync();
+            await _orderContext.Entry(order).Reference(i => i.OrderStatus).LoadAsync();
+        }
         return order;
     }
 
     public void Update(Order order)
     {
-		_orderContext.Entry(order).State = EntityState.Modified;
+        _orderContext.Entry(order).State = EntityState.Modified;
     }
 }

@@ -20,7 +20,7 @@ public class OrderStatus : Enumeration
     }
 
     public static IEnumerable<OrderStatus> List() =>
-        new[] { Submitted, AwaitingValidation, Confirmed,  PickedUp, InTransit, Delivered, Paid, Cancelled};
+        new[] { Submitted, AwaitingValidation, Confirmed, PickedUp, InTransit, Delivered, Paid, Cancelled };
 
     public static OrderStatus FromName(string name)
     {

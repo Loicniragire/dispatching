@@ -52,7 +52,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, boo
             {
                 _orderRepository.Add(order);
                 await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-				// TODO: Publish OrderStartedIntegrationEvent
+                // TODO: Publish OrderStartedIntegrationEvent
                 await _mediator.Publish(new OrderStartedIntegrationEvent(order.Id), cancellationToken);
                 _logger.LogInformation("Order {OrderId} was successfully created", order.Id);
                 return true;

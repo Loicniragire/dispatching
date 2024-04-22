@@ -2,10 +2,10 @@ namespace Ordering.Domain.Events;
 
 public class ClientRemovedDomainEvent : INotification
 {
-	public string IdentityGuid { get; }
+    public string IdentityGuid { get; }
 
-	public ClientRemovedDomainEvent(string identityGuid)
-	{
-		IdentityGuid = identityGuid;
-	}
+    public ClientRemovedDomainEvent(string identityGuid)
+    {
+        IdentityGuid = identityGuid;
+    }
 }

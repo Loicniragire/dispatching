@@ -12,9 +12,9 @@ public class Delivery : Entity
     private decimal _additionalCosts;
     private double _startOdometer;
     private double _endOdometer;
-	private double _distance;
-	private DateTimeOffset _startDate;
-	private DateTimeOffset _deliveryDate;
+    private double _distance;
+    private DateTimeOffset _startDate;
+    private DateTimeOffset _deliveryDate;
 
     public Delivery(string route)
     {
@@ -38,25 +38,25 @@ public class Delivery : Entity
     {
         if (gasCost < 0 || tollsCost < 0 || additionalCosts < 0)
             throw new OrderingDomainException("Cost values cannot be negative.");
-        
+
         if (endOdometer < _startOdometer)
             throw new OrderingDomainException("End odometer value must be greater than start odometer value.");
-        
+
         _gasCost = gasCost;
         _tollsCost = tollsCost;
         _additionalCosts = additionalCosts;
         _endOdometer = endOdometer;
-        _elapsedTime = DateTime.UtcNow - _startDate; 
-		_deliveryDate = DateTime.UtcNow;
-		_distance = _endOdometer - _startOdometer;
+        _elapsedTime = DateTime.UtcNow - _startDate;
+        _deliveryDate = DateTime.UtcNow;
+        _distance = _endOdometer - _startOdometer;
     }
 
     public void StartDelivery(double startOdometer)
     {
         if (startOdometer < 0)
             throw new OrderingDomainException("Start odometer value must not be negative.");
-        
+
         _startOdometer = startOdometer;
-		_startDate = DateTime.UtcNow;
+        _startDate = DateTime.UtcNow;
     }
 }

@@ -138,7 +138,7 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
-		var deliveryRoute = "Route";
+        var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to PickedUp status. 
@@ -163,7 +163,7 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
-		var deliveryRoute = "Route";
+        var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to InTransit status.
@@ -189,7 +189,7 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
-		var deliveryRoute = "Route";
+        var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to Delivered status.
@@ -217,7 +217,7 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
-		var deliveryRoute = "Route";
+        var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to Paid status.
@@ -268,7 +268,7 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
-		var deliveryRoute = "Route";
+        var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to InTransit status.
@@ -280,7 +280,7 @@ public class OrderTests
 
         // Attempt to cancel the order
         // This should not be allowed
-		Assert.Throws<OrderingDomainException>(() => order.SetCancelledStatus());
+        Assert.Throws<OrderingDomainException>(() => order.SetCancelledStatus());
 
         // Assert
         // Confirm that the domain event was not added
@@ -298,7 +298,7 @@ public class OrderTests
         var pickupAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var dropoffAddress = new Address("Test Street", "Test City", "Test State", "Test Country", "Test ZipCode");
         var order = new Order(userId, userName, pickupAddress, dropoffAddress, DateTimeOffset.Now, "Test Description");
-		var deliveryRoute = "Route";
+        var deliveryRoute = "Route";
 
         // Act
         // Propagate the Order to InTransit status.
@@ -309,7 +309,7 @@ public class OrderTests
 
         // Attempt to cancel the order
         // This should not be allowed
-		Assert.Throws<OrderingDomainException>(() => order.SetCancelledStatus());
+        Assert.Throws<OrderingDomainException>(() => order.SetCancelledStatus());
 
         // Assert
         // Confirm that the domain event was not added

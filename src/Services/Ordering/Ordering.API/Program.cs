@@ -13,7 +13,7 @@ string constr = builder.Configuration.GetConnectionString("DefaultConnection");
 // Register OrderingContext for DI
 builder.Services.AddDbContext<OrderingContext>(options =>
 {
-	options.UseSqlServer(constr);
+    options.UseSqlServer(constr);
 });
 //
 // Add services to the DI container

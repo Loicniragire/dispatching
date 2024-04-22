@@ -13,9 +13,9 @@ public class Client : Entity, IAggregateRoot
     public DateTime? UpdatedDate { get; private set; }
     public DateTime? RemovedDate { get; private set; }
 
-	// Navigation properties
-	public Address Address { get;  set; }
-	public ICollection<Order> Orders { get; set; }
+    // Navigation properties
+    public Address Address { get; set; }
+    public ICollection<Order> Orders { get; set; }
 
     public Client(string identityGuid, string name, string email, string phone, string notes, int? AddressId)
     {
@@ -26,7 +26,7 @@ public class Client : Entity, IAggregateRoot
         Notes = notes;
         CreatedDate = DateTime.UtcNow;
         IsRemoved = false;
-		AddressId = AddressId;
+        AddressId = AddressId;
         AddClientCreatedDomainEvent(identityGuid, name, email, phone, notes);
     }
 
@@ -49,8 +49,8 @@ public class Client : Entity, IAggregateRoot
 
     private void AddClientRemovedDomainEvent(string identityGuid)
     {
-		var clientRemovedDomainEvent = new ClientRemovedDomainEvent(identityGuid);
-		this.AddDomainEvent(clientRemovedDomainEvent);
+        var clientRemovedDomainEvent = new ClientRemovedDomainEvent(identityGuid);
+        this.AddDomainEvent(clientRemovedDomainEvent);
     }
 
     private void AddClientCreatedDomainEvent(string identityGuid, string name, string email, string phone, string notes)

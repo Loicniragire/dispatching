@@ -32,55 +32,55 @@ public class DeliveryEntityTypeConfiguration : IEntityTypeConfiguration<Delivery
     {
         deliveryConfiguration.Property<int>("OrderId")
             .IsRequired();
-		// configure the _route field
-		deliveryConfiguration.Property<string>("_route")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("Route")
-			.IsRequired();
-		deliveryConfiguration.Property<DateTimeOffset>("_deliveryDate")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("DeliveryDate")
-			.IsRequired();
+        // configure the _route field
+        deliveryConfiguration.Property<string>("_route")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("Route")
+            .IsRequired();
+        deliveryConfiguration.Property<DateTimeOffset>("_deliveryDate")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("DeliveryDate")
+            .IsRequired();
 
-		deliveryConfiguration.Property<DateTimeOffset>("_startDate")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("StartDate")
-			.IsRequired();
+        deliveryConfiguration.Property<DateTimeOffset>("_startDate")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("StartDate")
+            .IsRequired();
 
-		deliveryConfiguration.Property<TimeSpan>("_elapsedTime")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("ElapsedTime")
-			.IsRequired();
+        deliveryConfiguration.Property<TimeSpan>("_elapsedTime")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("ElapsedTime")
+            .IsRequired();
 
-		deliveryConfiguration.Property<decimal>("_gasCost")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("GasCost")
-			.IsRequired();
+        deliveryConfiguration.Property<decimal>("_gasCost")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("GasCost")
+            .IsRequired();
 
-		deliveryConfiguration.Property<decimal>("_tollsCost")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("TollsCost")
-			.IsRequired();
+        deliveryConfiguration.Property<decimal>("_tollsCost")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("TollsCost")
+            .IsRequired();
 
-		deliveryConfiguration.Property<decimal>("_additionalCosts")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("AdditionalCosts")
-			.IsRequired();
+        deliveryConfiguration.Property<decimal>("_additionalCosts")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("AdditionalCosts")
+            .IsRequired();
 
-		deliveryConfiguration.Property<double>("_startOdometer")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("StartOdometer")
-			.IsRequired();
+        deliveryConfiguration.Property<double>("_startOdometer")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("StartOdometer")
+            .IsRequired();
 
-		deliveryConfiguration.Property<double>("_endOdometer")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("EndOdometer")
-			.IsRequired();
+        deliveryConfiguration.Property<double>("_endOdometer")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("EndOdometer")
+            .IsRequired();
 
-		deliveryConfiguration.Property<double>("_distance")
-			.UsePropertyAccessMode(PropertyAccessMode.Field)
-			.HasColumnName("Distance")
-			.IsRequired();
+        deliveryConfiguration.Property<double>("_distance")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("Distance")
+            .IsRequired();
     }
 
     private void ConfigureRelationships(EntityTypeBuilder<Delivery> deliveryConfiguration)

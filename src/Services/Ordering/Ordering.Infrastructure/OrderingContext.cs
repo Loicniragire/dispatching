@@ -9,20 +9,20 @@ public class OrderingContext : DbContext, IUnitOfWork
 {
     public const string DEFAULT_SCHEMA = "ordering";
 
-	//
+    //
     // Properties for each entity set that corresponds to a database table.
-	//
+    //
     public DbSet<Order> Orders { get; set; }
     public DbSet<Load> Loads { get; set; }
     public DbSet<OrderStatus> OrderStatus { get; set; }
     public DbSet<Client> Clients { get; set; }
-	public DbSet<Delivery> Deliveries { get; set; }
-	public DbSet<Address> Addresses { get; set; }
+    public DbSet<Delivery> Deliveries { get; set; }
+    public DbSet<Address> Addresses { get; set; }
 
-	// Mediator for dispatching domain events.
+    // Mediator for dispatching domain events.
     private readonly IMediator _mediator;
 
-	// Current transaction, if any.
+    // Current transaction, if any.
     private IDbContextTransaction _currentTransaction;
 
     public OrderingContext(DbContextOptions<OrderingContext> options) : base(options) { }
@@ -32,38 +32,38 @@ public class OrderingContext : DbContext, IUnitOfWork
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
-	/// <summary>
-	/// Indicates if there is an active transaction.
-	/// </summary>
-	/// <value>True if there is an active transaction, otherwise false.</value>
+    /// <summary>
+    /// Indicates if there is an active transaction.
+    /// </summary>
+    /// <value>True if there is an active transaction, otherwise false.</value>
     public bool HasActiveTransaction => _currentTransaction != null;
 
-	/// <summary>
-	/// Applies entity configurations during the model creation phase.
-	/// </summary>
-	/// <param name="modelBuilder">The builder for the model to be created.</param>
-	/// <remarks>
-	/// This method is called during the model creation phase, allowing for the application
-	/// of entity configurations to the model.
-	/// </remarks>
+    /// <summary>
+    /// Applies entity configurations during the model creation phase.
+    /// </summary>
+    /// <param name="modelBuilder">The builder for the model to be created.</param>
+    /// <remarks>
+    /// This method is called during the model creation phase, allowing for the application
+    /// of entity configurations to the model.
+    /// </remarks>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new LoadEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new OrderStatusEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ClientEntityTypeConfiguration());
-		modelBuilder.ApplyConfiguration(new DeliveryEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new DeliveryEntityTypeConfiguration());
     }
 
-	/// <summary>
-	/// Saves the entities with changes to the database and dispatches domain events.
-	/// </summary>
-	/// <param name="cancellationToken">The cancellation token for the operation.</param>
-	/// <returns>True if the operation succeeds, otherwise false.</returns>
-	/// <remarks>
-	/// This method saves the changes to the underlying database and dispatches any domain
-	/// events that have been raised during the operation.
-	/// </remarks>
+    /// <summary>
+    /// Saves the entities with changes to the database and dispatches domain events.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token for the operation.</param>
+    /// <returns>True if the operation succeeds, otherwise false.</returns>
+    /// <remarks>
+    /// This method saves the changes to the underlying database and dispatches any domain
+    /// events that have been raised during the operation.
+    /// </remarks>
     public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
     {
         // Dispatch Domain Events collection. 
@@ -81,10 +81,10 @@ public class OrderingContext : DbContext, IUnitOfWork
         return true;
     }
 
-	/// <summary>
-	/// Initiates a new transaction if there isn't an active one.
-	/// </summary>
-	/// <returns>The newly created database transaction.</returns>
+    /// <summary>
+    /// Initiates a new transaction if there isn't an active one.
+    /// </summary>
+    /// <returns>The newly created database transaction.</returns>
     public async Task<IDbContextTransaction> BeginTransactionAsync()
     {
         if (_currentTransaction != null) return null;
@@ -94,11 +94,11 @@ public class OrderingContext : DbContext, IUnitOfWork
         return _currentTransaction;
     }
 
-	/// <summary>
-	/// Commits the provided transaction against the database.
-	/// </summary>
-	/// <param name="transaction">The transaction to commit.</param>
-	/// <returns>A task representing the asynchronous operation.</returns>
+    /// <summary>
+    /// Commits the provided transaction against the database.
+    /// </summary>
+    /// <param name="transaction">The transaction to commit.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task CommitTransactionAsync(IDbContextTransaction transaction)
     {
         if (transaction == null) throw new ArgumentNullException(nameof(transaction));
@@ -124,9 +124,9 @@ public class OrderingContext : DbContext, IUnitOfWork
         }
     }
 
-	/// <summary>
-	/// Rolls back the current transaction, if any, and disposes it.
-	/// </summary>
+    /// <summary>
+    /// Rolls back the current transaction, if any, and disposes it.
+    /// </summary>
     public void RollbackTransaction()
     {
         try
@@ -159,16 +159,16 @@ public class OrderingContextDesignFactory : IDesignTimeDbContextFactory<Ordering
 {
     public OrderingContext CreateDbContext(string[] args)
     {
-		// Using a hard-coded connection string for design-time services.
+        // Using a hard-coded connection string for design-time services.
         var optionsBuilder = new DbContextOptionsBuilder<OrderingContext>()
             .UseSqlServer("Server=localhost,1433;Database=dispatching.Services.OrderingDb;User ID=SA;Password=1Strong@Psw;TrustServerCertificate=True;Connection Timeout=30;");
 
         return new OrderingContext(optionsBuilder.Options, new NoMediator());
     }
 
-	/// <summary>
-	/// Provides a non-functional mediator implementation for design-time purposes.
-	/// </summary>
+    /// <summary>
+    /// Provides a non-functional mediator implementation for design-time purposes.
+    /// </summary>
     class NoMediator : IMediator
     {
         public IAsyncEnumerable<TResponse> CreateStream<TResponse>(IStreamRequest<TResponse> request, CancellationToken cancellationToken = default)

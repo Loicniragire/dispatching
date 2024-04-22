@@ -2,12 +2,12 @@ namespace Ordering.Infrastructure;
 
 static class MediatorExtension
 {
-	/// <summary>
-	/// Dispatches the domain events.
-	/// </summary>
-	/// <param name="mediator">The mediator.</param>
-	/// <param name="ctx">The CTX.</param>
-	/// <returns></returns>
+    /// <summary>
+    /// Dispatches the domain events.
+    /// </summary>
+    /// <param name="mediator">The mediator.</param>
+    /// <param name="ctx">The CTX.</param>
+    /// <returns></returns>
     public static async Task DispatchDomainEventsAsync(this IMediator mediator, OrderingContext ctx)
     {
         var domainEntities = ctx.ChangeTracker
