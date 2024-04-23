@@ -14,3 +14,4 @@ global using Ordering.API.Application.Commands;
 global using Ordering.API.Middleware;
 global using System.Data.SqlClient;
 global using Dapper;
+global using Ordering.API.Application.IntegrationEvents;

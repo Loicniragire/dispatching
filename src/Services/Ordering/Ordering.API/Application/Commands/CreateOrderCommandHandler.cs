@@ -4,13 +4,15 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, boo
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IMediator _mediator;
+	private readonly IOrderingIntegrationEventService _orderingIntegrationEventService;
     private readonly ILogger<CreateOrderCommandHandler> _logger;
 
-    public CreateOrderCommandHandler(IOrderRepository orderRepository, IMediator mediator, ILogger<CreateOrderCommandHandler> logger)
+    public CreateOrderCommandHandler(IOrderRepository orderRepository, IMediator mediator, OrderingIntegrationEventService orderingIntegrationEventService, ILogger<CreateOrderCommandHandler> logger)
     {
         _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		_orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
     }
 
     public async Task<bool> Handle(CreateOrderCommand message, CancellationToken cancellationToken)
@@ -19,6 +21,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, boo
         var clientId = message.ClientId;
         var clientName = message.ClientName;
         var loads = message.Loads;
+        List<bool> results = new List<bool>();
 
         foreach (var load in message.Loads)
         {
@@ -50,22 +53,25 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, boo
 
             try
             {
+                var OrderStartedIntegrationEvent = new OrderStartedIntegrationEvent(order.Id); ;
+				await _orderingIntegrationEventService.AddAndSaveEventAsync(OrderStartedIntegrationEvent);
+
+                _logger.LogInformation("Creating Order - Order: {@Order}", order);
                 _orderRepository.Add(order);
-                await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-                // TODO: Publish OrderStartedIntegrationEvent
-                await _mediator.Publish(new OrderStartedIntegrationEvent(order.Id), cancellationToken);
-                _logger.LogInformation("Order {OrderId} was successfully created", order.Id);
-                return true;
+                var tmp = await _orderRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+                results.Add(tmp);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "ERROR handling CreateOrderCommand: {Message}", ex.Message);
-                return false;
+                results.Add(false);
             }
         };
 
+        // log the number of successful orders created
+        _logger.LogInformation("Successfully Created {0} orders out of {1} requested orders.", results.Count(x => x == true), results.Count);
 
-
+        return results.All(x => x == true);
     }
 
 }
